@@ -3,11 +3,48 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --lineBorder: #f9f6f0;
+  --primaryBg: #fbf8f2;
+  --grayBlack: #4a4c56;
+  --textPrimary: #4a3a2f;
+  --si-bg: #fbf8f2;
+  --si-border: #e0d9d1;
+
+  --si-ring: #000000;
+  --si-ring-spread: rgba(139, 92, 246, 0.1);
+  --si-text: #4a3a2f;
+  --si-placeholder: #6E6159;
+  --si-icon: #6E6159;
+  --si-hover-text: #0f172a;
+  --si-hover-bg: #f1f5f9;
+  --si-active-bg: #e2e8f0;
+  --si-clear-hover: rgba(0, 0, 0, 0.05);
+  --si-error: #ef4444;
+  --si-highlight-bg: rgba(139, 92, 246, 0.1);
+  --si-highlight-text: #7c3aed;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-lineBorder: var(--lineBorder);
+  --color-grayBlack: var(--grayBlack);
+  --color-primaryBg: var(--primaryBg);
+
+  /* search color */
+  --color-si-bg: var(--si-bg);
+  --color-si-border: var(--si-border);
+  --color-si-ring: var(--si-ring);
+  --color-si-text: var(--si-text);
+  --color-si-placeholder: var(--si-placeholder);
+  --color-si-icon: var(--si-icon);
+  --color-si-hover-bg: var(--si-hover-bg);
+  --color-si-active-bg: var(--si-active-bg);
+  --color-si-error: var(--si-error);
+  --color-si-highlight-bg: var(--si-highlight-bg);
+  --color-si-highlight-text: var(--si-highlight-text);
+
+  --bg-bgBrown: var(--textPrimary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -20,7 +57,6 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
