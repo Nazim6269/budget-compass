@@ -23,9 +23,9 @@ export const sidebarItems = [
     icon: SubscriptionIcon,
   },
   {
-    id: "setting",
-    title: "Setting",
-    href: "/dashboard/setting",
+    id: "settings",
+    title: "Settings",
+    href: "/dashboard/settings",
     icon: Setting,
   },
 ];

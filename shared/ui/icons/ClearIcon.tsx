@@ -12,9 +12,9 @@ const ClearIcon = () => {
       <path
         d="M18 6L6 18M18 18L6 6"
         stroke="#2C2C2C"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

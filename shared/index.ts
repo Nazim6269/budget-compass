@@ -2,6 +2,8 @@ export { useClickOutside } from "./model/useClickOutside";
 export { useDebounce } from "./model/useDebounce";
 export { useKeyboardNav } from "./model/useKeyboardNav";
 export { useSearch } from "./model/useSearch";
+export { useActiveNav } from "./model/useActiveNav";
+export { useBreakpoint } from "./model/useBreakPoint";
 export * from "./model/searchType";
 
 //======================== icons ================
