@@ -55,26 +55,26 @@ export function ResultItem<T extends SearchResult>({
         isActive ? "bg-si-active-bg" : "hover:bg-si-hover-bg",
       )}
     >
-      {item.icon && (
+      {/* {item.icon && (
         <span className="shrink-0 text-si-icon w-4 h-4 flex items-center justify-center">
           {item.icon}
         </span>
-      )}
+      )} */}
       <div className="min-w-0 flex-1">
         <div className="text-[14px] text-si-text truncate leading-snug">
           <HighlightedText text={item.label} query={query} />
         </div>
-        {item.description && (
+        {/* {item.description && (
           <div className="text-[12px] text-si-placeholder truncate mt-0.5">
             {item.description}
           </div>
-        )}
+        )} */}
       </div>
-      {item._isRecent && (
+      {/* {item._isRecent && (
         <span className="shrink-0 text-[10px] text-si-placeholder uppercase tracking-wider">
           Recent
         </span>
-      )}
+      )} */}
     </div>
   );
 }

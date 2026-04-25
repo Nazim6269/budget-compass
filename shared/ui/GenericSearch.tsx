@@ -26,7 +26,7 @@ import { LoadingSpinner } from "./icons/LoadingSpinner";
 const iconSizeVariant = {
   sm: "w-3 h-3",
   md: "w-4 h-4",
-  lg: "w-5.5 h-5.5",
+  lg: "w-4.5 h-4.5",
 };
 
 function GenericSearchInner<T extends SearchResult>(
@@ -226,7 +226,7 @@ function GenericSearchInner<T extends SearchResult>(
           className={cn(
             "flex-1 min-w-0 bg-transparent outline-none",
             "text-si-text placeholder:text-si-placeholder",
-            "text-[15px] font-normal",
+            "text-lg font-normal",
             "[&::-webkit-search-cancel-button]:hidden",
             inputClassName,
           )}

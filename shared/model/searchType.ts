@@ -16,7 +16,7 @@ export interface GenericSearchProps<T> {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
-  onSearch?: (query: string) => (Promise<T[]> | T[]) | undefined;
+  onSearch: (query: string) => (Promise<T[]> | T[]);
   onSelect?: (item: T) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;

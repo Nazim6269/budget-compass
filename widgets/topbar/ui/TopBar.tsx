@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { GenericSearch } from "@/shared/ui/GenericSearch";
 import Notification from "@/shared/ui/icons/Notification";
@@ -6,10 +6,16 @@ import Image from "next/image";
 
 export const Topbar = () => {
   return (
-    <header className="w-full border-b border-lineBorder flex items-center p-6">
+    <header className="w-full border-b border-lineBorder flex items-center justify-between gap-4 p-6">
       {/* Left - Search */}
       <div className="flex-1">
-        <GenericSearch onSelect={() => {}} className="max-w-md" placeholder="Quick Search..."/>
+        <GenericSearch
+          onSelect={() => {}}
+          onSearch={() => []}
+          className="max-w-md"
+          placeholder="Quick Search..."
+          size="lg"
+        />
       </div>
 
       {/* Right - Actions */}
