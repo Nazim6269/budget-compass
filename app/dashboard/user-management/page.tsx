@@ -1,7 +1,7 @@
-import React from "react";
+import UserManagement from "@/widgets/user-management/ui/UserManagement";
 
 const UserManagementPage = () => {
-  return <div>UserManagementPage</div>;
+  return <UserManagement />;
 };
 
 export default UserManagementPage;

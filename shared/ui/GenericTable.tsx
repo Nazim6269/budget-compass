@@ -5,6 +5,9 @@ import React from "react";
 import { ChevronDown } from "lucide-react";
 import TableSkeleton from "./TableSkeleton";
 import { useIsMobile } from "../model/useMobile";
+import EyeOnIcon from "./icons/EyeOnIcon";
+import DeleteIcon from "./icons/DeleteIcon";
+import WriteIcon from "./icons/WriteIcon";
 
 export interface ColumnConfig {
   label: React.ReactNode;
@@ -81,14 +84,14 @@ export default function GenericTable({
                   <th
                     key={index}
                     style={{ width: resolveWidth(col.width) }}
-                    className="px-4 bg-secondaryColor py-2 text-sm font-medium"
+                    className="px-4 bg-secondaryColor py-2 text-sm font-semibold"
                   >
                     {col.label}
                   </th>
                 ))}
 
                 {hasActions && (
-                  <th className="px-4 py-2 text-sm font-medium text-whiteColor bg-secondaryColor">
+                  <th className="px-4 py-2 text-sm font-semibold text-whiteColor bg-secondaryColor">
                     Actions
                   </th>
                 )}
@@ -143,32 +146,32 @@ export default function GenericTable({
 
                     {/* ACTIONS */}
                     {hasActions && (
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 w-[100px]">
                         <div className="flex gap-4 items-center">
                           {onView && (
                             <span
-                              className="cursor-pointer"
+                              className="cursor-pointer bg-[#F8FAFB] p-1.5 rounded-md"
                               onClick={() => onView(row)}
                             >
-                              {/* <EyeOnIcon className="border border-secondaryColor bg-primaryColor w-7 h-7 rounded-md p-1" /> */}
-                            </span>
-                          )}
-
-                          {onDelete && (
-                            <span
-                              className="cursor-pointer"
-                              onClick={() => onDelete(row.id)}
-                            >
-                              {/* <DeleteIcon className="border border-secondaryColor bg-primaryColor w-7 h-7 rounded-md p-1" /> */}
+                              <EyeOnIcon />
                             </span>
                           )}
 
                           {onWrite && (
                             <span
-                              className="cursor-pointer"
+                              className="cursor-pointer bg-[#F8FAFB] p-1.5 rounded-md"
                               onClick={() => onWrite(row.id)}
                             >
-                              {/* <WriteIcon className="border border-secondaryColor bg-primaryColor w-7 h-7 rounded-md p-1" /> */}
+                              <WriteIcon />
+                            </span>
+                          )}
+
+                          {onDelete && (
+                            <span
+                              className="cursor-pointer bg-[#F8FAFB] p-1.5 rounded-md"
+                              onClick={() => onDelete(row.id)}
+                            >
+                              <DeleteIcon />
                             </span>
                           )}
                         </div>

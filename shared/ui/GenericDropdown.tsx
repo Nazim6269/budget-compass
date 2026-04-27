@@ -18,13 +18,13 @@ export interface SelectSlots {
 
 export interface SelectOption {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 export interface GenericDropDownProps {
   options: SelectOption[];
-  value?: string;
-  onValueChange?: (value: string) => void;
+  value?: string | number;
+  onValueChange?: (value: string | number) => void;
   placeholder?: string;
   leftIcon?: React.ReactNode;
   variant?: "dark" | "light";
@@ -48,19 +48,50 @@ const GenericDropDown = ({
   leftIcon,
   className,
 }: GenericDropDownProps) => {
-  const [internalValue, setInternalValue] = useState<string | undefined>(value);
+  const [internalValue, setInternalValue] = useState<string | undefined>(
+    value?.toString(),
+  );
   const [open, setOpen] = useState(false);
   const { searchQuery, setSearchQuery, filteredOptions } = useSelect(options);
 
   const handleToggle = () => setOpen((prev) => !prev);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [openUpwards, setOpenUpwards] = useState(false);
+  const [alignRight, setAlignRight] = useState(false);
 
   const v = selectTokens.variants[variant];
 
   useClickOutside(dropdownRef, () => {
     setOpen(false);
   });
+
+  React.useLayoutEffect(() => {
+    if (open && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      const spaceBelow = viewportHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const spaceRight = viewportWidth - rect.left;
+
+      // Vertical positioning
+      if (spaceBelow < 280 && spaceAbove > spaceBelow) {
+        setOpenUpwards(true);
+      } else {
+        setOpenUpwards(false);
+      }
+
+      // Horizontal positioning
+      if (spaceRight < 200) {
+        setAlignRight(true);
+      } else {
+        setAlignRight(false);
+      }
+    }
+  }, [open]);
+
   const currentValue = value !== undefined ? value : internalValue;
   const selectedLabel = options.find((o) => o.value === currentValue)?.label;
 
@@ -104,7 +135,9 @@ const GenericDropDown = ({
       {open && (
         <div
           className={cn(
-            "absolute z-50 mt-2 shadow-2xl rounded-xl min-w-full lg:min-w-[200px] border border-border-base overflow-hidden bg-white/50 backdrop-blur-sm bg-surface-overlay",
+            "absolute z-50 shadow-2xl rounded-xl min-w-full lg:min-w-[200px] border border-border-base overflow-hidden bg-white/50 backdrop-blur-sm bg-surface-overlay",
+            openUpwards ? "bottom-full mb-2" : "top-full mt-2",
+            alignRight ? "right-0" : "left-0",
             v.dropdown,
             slots?.dropdown,
           )}
@@ -134,9 +167,9 @@ const GenericDropDown = ({
                 key={opt.value}
                 onClick={() => {
                   if (value === undefined) {
-                    setInternalValue(opt.value);
+                    setInternalValue(opt.value.toString());
                   }
-                  onValueChange?.(opt.value);
+                  onValueChange?.(opt.value.toString());
                   setOpen(false);
                 }}
                 className={cn(

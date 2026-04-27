@@ -43,7 +43,9 @@
   --color-green-50: var(--green-50);
   --color-green-600: var(--green-600);
   --color-textSecondary: var(--textSecondary);
+  --color-textPrimary: var(--textPrimary);
   --color-border: var(--border-color);
+
   /* search color */
   --color-si-bg: var(--si-bg);
   --color-si-border: var(--si-border);
