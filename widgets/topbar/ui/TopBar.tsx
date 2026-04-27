@@ -26,7 +26,7 @@ export const Topbar = () => {
           onSearch={(query: string) => searchNav(query)}
           className="max-w-md"
           placeholder="Quick Search..."
-          size="md"
+          size="lg"
         />
       </div>
 

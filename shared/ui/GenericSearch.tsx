@@ -23,10 +23,10 @@ import ClearIcon from "./icons/ClearIcon";
 import SearchIcon from "./icons/SearchIcon";
 import { LoadingSpinner } from "./icons/LoadingSpinner";
 
-const iconSizeVariant = {
-  sm: "w-3 h-3",
-  md: "w-4 h-4",
-  lg: "w-4.5 h-4.5",
+const inputSizeVariant = {
+  sm: "h-3 py-2",
+  md: "h-4 py-3",
+  lg: "h-5 py-4",
 };
 
 function GenericSearchInner<T extends SearchResult>(
@@ -186,21 +186,19 @@ function GenericSearchInner<T extends SearchResult>(
       <div
         className={cn(
           "search-input-wrapper",
-          "flex items-center gap-1.5 p-4",
+          "flex items-center gap-1.5 p-2",
           "w-full",
           "rounded-lg border",
           "transition-all duration-150 ease-out",
-          isFocused ? "border-si-ring shadow-[0_0_0_3px_var(--si-ring-spread)] bg-si-bg" : "border-si-border bg-si-bg",
+          isFocused
+            ? "border-si-ring shadow-[0_0_0_3px_var(--si-ring-spread)] bg-si-bg"
+            : "border-si-border bg-si-bg",
           disabled && "opacity-50 cursor-not-allowed",
         )}
       >
         {showIcon && (
           <span className="shrink-0 text-[--si-icon] transition-colors duration-150">
-            {showLoadingIcon ? (
-              <LoadingSpinner />
-            ) : (
-              <SearchIcon className={iconSizeVariant[size]} />
-            )}
+            {showLoadingIcon ? <LoadingSpinner /> : <SearchIcon />}
           </span>
         )}
 
@@ -228,6 +226,7 @@ function GenericSearchInner<T extends SearchResult>(
             "text-si-text placeholder:text-si-placeholder",
             "text-lg font-normal",
             "[&::-webkit-search-cancel-button]:hidden",
+            inputSizeVariant[size],
             inputClassName,
           )}
         />
