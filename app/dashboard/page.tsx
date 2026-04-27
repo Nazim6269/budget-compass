@@ -1,8 +1,5 @@
+import { DashboardOverview } from "@/widgets/overview";
+
 export default function Home() {
-  return (
-    <div>
-      <div>This is Dashboard</div>
-     
-    </div>
-  );
+  return <DashboardOverview />;
 }

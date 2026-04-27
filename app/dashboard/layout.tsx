@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { Topbar } from "@/widgets/topbar/ui/TopBar";
 import { AppSidebar } from "@/widgets/sidebar/ui/AppSidebar";
 
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Admin Dashboard for Bendrummond",
 };
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -32,11 +32,8 @@ export default function RootLayout({
       <body className="min-h-full flex ">
         <AppSidebar />
         <div className="flex-1 flex flex-col h-screen overflow-hidden">
-          {/* Top Bar */}
           <Topbar />
-
-          {/* Main Content */}
-          <main className="flex-1 overflow-auto p-6 bg-gray-50">
+          <main className="flex-1 overflow-auto p-5 bg-secondaryBg">
             {children}
           </main>
         </div>

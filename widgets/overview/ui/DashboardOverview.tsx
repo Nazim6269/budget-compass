@@ -9,99 +9,13 @@ import RegistrationsBarChart, {
 import PlanDistributionChart, { PlanSegment } from "./PlanDistributionChart";
 import RecentUsersTable, { UserRecord } from "./RecentUsersTable";
 import MetricCard from "./MetricCard";
+import { recentUsers, registrationData } from "./data";
 
-// ─── Data ──────────────────────────────────────────────────────────────────
 
-const registrationData: Record<DateRangeOption, RegistrationDataPoint[]> = {
-  "Last 3 months": [
-    { month: "Apr", registrations: 42 },
-    { month: "May", registrations: 63 },
-    { month: "Jun", registrations: 51 },
-  ],
-  "Last 6 months": [
-    { month: "Jan", registrations: 22 },
-    { month: "Feb", registrations: 68 },
-    { month: "Mar", registrations: 41 },
-    { month: "Apr", registrations: 47 },
-    { month: "May", registrations: 63 },
-    { month: "Jun", registrations: 51 },
-  ],
-  "Last 12 months": [
-    { month: "Jul", registrations: 14 },
-    { month: "Aug", registrations: 28 },
-    { month: "Sep", registrations: 35 },
-    { month: "Oct", registrations: 52 },
-    { month: "Nov", registrations: 44 },
-    { month: "Dec", registrations: 38 },
-    { month: "Jan", registrations: 22 },
-    { month: "Feb", registrations: 68 },
-    { month: "Mar", registrations: 41 },
-    { month: "Apr", registrations: 47 },
-    { month: "May", registrations: 63 },
-    { month: "Jun", registrations: 51 },
-  ],
-};
 
 const planDistribution: PlanSegment[] = [
-  { name: "Monthly Users", value: 60, color: "#44403c" },
-  { name: "Yearly Users", value: 40, color: "#d6d3d1" },
-];
-
-const recentUsers: UserRecord[] = [
-  {
-    id: "1",
-    name: "Cameron Williamson",
-    email: "alice@example.com",
-    plan: "Monthly",
-    subscribedAt: "2024-01-15",
-    safeToSpend: 120,
-    status: "Active",
-  },
-  {
-    id: "2",
-    name: "Niloy Tata",
-    email: "niloy@example.com",
-    plan: "Yearly",
-    subscribedAt: "2024-02-18",
-    safeToSpend: 250,
-    status: "Active",
-  },
-  {
-    id: "3",
-    name: "Sophia Chen",
-    email: "sophia.chen@example.com",
-    plan: "Monthly",
-    subscribedAt: "2024-03-22",
-    safeToSpend: 340,
-    status: "Active",
-  },
-  {
-    id: "4",
-    name: "Liam O'Connor",
-    email: "liam.oconnor@example.com",
-    plan: "Yearly",
-    subscribedAt: "2024-04-27",
-    safeToSpend: 410,
-    status: "Inactive",
-  },
-  {
-    id: "5",
-    name: "Isabella Martinez",
-    email: "isabella.m@example.com",
-    plan: "Enterprise",
-    subscribedAt: "2024-05-03",
-    safeToSpend: 980,
-    status: "Active",
-  },
-  {
-    id: "6",
-    name: "Wei Zhang",
-    email: "wei.zhang@example.com",
-    plan: "Monthly",
-    subscribedAt: "2024-05-19",
-    safeToSpend: 75,
-    status: "Pending",
-  },
+  { name: "Monthly Users", value: 60, color: "#5C473B" },
+  { name: "Yearly Users", value: 40, color: "#D6C7B2" },
 ];
 
 
@@ -115,7 +29,7 @@ export default function DashboardOverview() {
       </header>
 
       {/* ── Metric Cards ── */}
-      <section className="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 ">
+      <section className="mb-6 grid grid-cols-1 gap-5  xl:grid-cols-3 ">
         <MetricCard
           title="Total Users"
           value={247}
@@ -141,7 +55,7 @@ export default function DashboardOverview() {
       </section>
 
       {/* ── Charts ── */}
-      <section className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_280px]">
+      <section className="mb-6 grid grid-cols-1 gap-5 lg:grid-cols-[1fr_310px]">
         <RegistrationsBarChart
           data={registrationData}
           defaultRange="Last 6 months"

@@ -2,19 +2,26 @@
 
 :root {
   --background: #ffffff;
+  --secondaryBg: #fbf8f2;
   --foreground: #171717;
   --lineBorder: #f9f6f0;
   --primaryBg: #fbf8f2;
   --grayBlack: #4a4c56;
+  --grayBlack2: #777980;
   --textPrimary: #4a3a2f;
+  --textSecondary: #5c473b;
   --si-bg: #fbf8f2;
   --si-border: #e0d9d1;
+  --headingColor: #1d1f2c;
+  --green-50: #e9faee;
+  --green-600: #219143;
+  --border-color: rgba(92, 71, 59, 0.3);
 
   --si-ring: #000000;
   --si-ring-spread: rgba(139, 92, 246, 0.1);
   --si-text: #4a3a2f;
-  --si-placeholder: #6E6159;
-  --si-icon: #6E6159;
+  --si-placeholder: #6e6159;
+  --si-icon: #6e6159;
   --si-hover-text: #0f172a;
   --si-hover-bg: #f1f5f9;
   --si-active-bg: #e2e8f0;
@@ -26,11 +33,17 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-secondaryBg: var(--secondaryBg);
   --color-foreground: var(--foreground);
   --color-lineBorder: var(--lineBorder);
   --color-grayBlack: var(--grayBlack);
+  --color-grayBlack2: var(--grayBlack2);
   --color-primaryBg: var(--primaryBg);
-
+  --color-headingColor: var(--headingColor);
+  --color-green-50: var(--green-50);
+  --color-green-600: var(--green-600);
+  --color-textSecondary: var(--textSecondary);
+  --color-border: var(--border-color);
   /* search color */
   --color-si-bg: var(--si-bg);
   --color-si-border: var(--si-border);

@@ -4,7 +4,9 @@ export { useKeyboardNav } from "./model/useKeyboardNav";
 export { useSearch } from "./model/useSearch";
 export { useActiveNav } from "./model/useActiveNav";
 export { useBreakpoint } from "./model/useBreakPoint";
+export { default as useSelect } from "./model/useSelect";
 export * from "./model/searchType";
+export * from "./ui/GenericTable";
 
 //======================== icons ================
 export { default as Notification } from "./ui/icons/Notification";
