@@ -28,7 +28,7 @@ export default function PlanDistributionChart({
         className,
       )}
     >
-      <h2 className="text-2xl font-semibold text-headingColor">
+      <h2 className="text-xl sm:text-2xl font-semibold text-headingColor">
         Plan Distribution
       </h2>
 

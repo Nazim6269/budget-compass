@@ -16,7 +16,7 @@ function searchNav(query: string) {
 export const Topbar = () => {
   const router = useRouter();
   return (
-    <header className="w-full border-b border-lineBorder flex items-center justify-between gap-4 p-6">
+    <header className="w-full border-b border-lineBorder flex items-center justify-between gap-4 p-3 sm:p-6">
       {/* Left - Search */}
       <div className="flex-1 hidden sm:flex">
         <GenericSearch

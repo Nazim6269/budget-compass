@@ -65,7 +65,7 @@ const GenericDropDown = ({
   const selectedLabel = options.find((o) => o.value === currentValue)?.label;
 
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div className={cn("relative text-left", className)} ref={dropdownRef}>
       {/* Trigger */}
       <button
         type="button"
@@ -75,13 +75,13 @@ const GenericDropDown = ({
           v.trigger,
           selectTokens.sizes[size],
           selectTokens.radius[radius],
-          "flex items-center justify-between gap-2 overflow-hidden",
+          "flex items-center justify-between gap-2 overflow-hidden ",
           selectedLabel ? "text-text-base" : "text-text-placeholder",
           slots?.trigger,
-          className,
+          "w-full",
         )}
       >
-        <div className="flex items-center gap-2 min-w-0 ">
+        <div className="flex items-center justify-between gap-2 min-w-0 w-full">
           {leftIcon && (
             <span className="shrink-0 text-text-muted">{leftIcon}</span>
           )}

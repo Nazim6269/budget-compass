@@ -63,8 +63,8 @@ export default function RegistrationsBarChart({
         className,
       )}
     >
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="text-2xl font-semibold text-headingColor leading-[130%] tracking-[0.008rem]">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 items-start sm:items-center justify-between w-full sm:w-auto">
+        <h2 className="text-xl sm:text-2xl font-semibold text-headingColor leading-[130%] tracking-[0.008rem]">
           User Registrations
         </h2>
         <GenericDropDown
@@ -76,8 +76,8 @@ export default function RegistrationsBarChart({
           value={range}
           onValueChange={(value) => setRange(value as DateRangeOption)}
           placeholder="Last 6 months"
-          className="hidden md:block "
           variant="light"
+          className="w-full sm:w-fit"
         />
       </div>
 

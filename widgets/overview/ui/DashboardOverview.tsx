@@ -23,7 +23,7 @@ export default function DashboardOverview() {
   return (
     <main className="min-h-screen  font-sans">
       <header className="mb-6">
-        <h1 className="text-[2rem] font-semibold text-headingColor tracking-tight">
+        <h1 className="text-xl sm:text-[2rem] font-semibold text-headingColor tracking-tight">
           Dashboard Overview
         </h1>
       </header>
