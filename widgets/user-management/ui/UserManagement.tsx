@@ -29,7 +29,7 @@ const UserManagement = () => {
     resetDeps: [recentUsers, itemsPerPage], 
   });
   return (
-    <div className="space-y-8 bg-white rouned-xl p-6">
+    <div className="space-y-8 bg-white rouned-xl p-3 sm:p-6">
       <UserManagementHeader />
       <GenericTable
         data={paginatedData}

@@ -113,7 +113,7 @@ export default function RecentUsersTable({
   return (
     <section
       className={cn(
-        "flex flex-col gap-6 rounded-2xl border border-green-600 bg-white px-5 py-5 ",
+        "flex flex-col gap-6 rounded-2xl border border-green-600 bg-white p-3 sm:p-5 ",
         className,
       )}
     >

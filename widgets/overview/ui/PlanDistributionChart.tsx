@@ -24,7 +24,7 @@ export default function PlanDistributionChart({
   return (
     <section
       className={cn(
-        "flex flex-col gap-4 rounded-2xl border border-borderColor bg-white p-6 transition-all duration-300 hover:shadow-[0_0_0_1px_#0000001a]",
+        "flex flex-col gap-4 rounded-2xl border border-borderColor bg-white p-3 sm:p-6 transition-all duration-300 hover:shadow-[0_0_0_1px_#0000001a]",
         className,
       )}
     >

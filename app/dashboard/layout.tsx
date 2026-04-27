@@ -33,7 +33,7 @@ export default function DashboardLayout({
         <AppSidebar />
         <div className="flex-1 flex flex-col h-screen overflow-hidden">
           <Topbar />
-          <main className="flex-1 overflow-auto p-5 bg-secondaryBg">
+          <main className="flex-1 overflow-auto p-3 sm:p-5 bg-secondaryBg">
             {children}
           </main>
         </div>
