@@ -4,6 +4,7 @@ export { useKeyboardNav } from "./model/useKeyboardNav";
 export { useSearch } from "./model/useSearch";
 export { useActiveNav } from "./model/useActiveNav";
 export { useBreakpoint } from "./model/useBreakPoint";
+export { useTabState } from "./model/useTabState";
 export {
   usePagination,
   DOTS,
