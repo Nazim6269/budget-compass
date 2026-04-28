@@ -36,7 +36,7 @@ export const sizeConfig: Record<
     radius: "rounded-lg",
   },
   lg: {
-    input: "p-3 text-sm",
+    input: "p-4 text-base",
     label: "text-sm font-semibold mb-1.5",
     helper: "text-sm mt-1.5",
     icon: "w-5 h-5",
@@ -130,8 +130,8 @@ export function buildInputClass({
 
   return cn(
     "w-full outline-none transition-all duration-150",
-    "text-slate-900 dark:text-slate-100",
-    "placeholder:text-grayBlack dark:placeholder:text-slate-400",
+    "text-slate-900 ",
+    "placeholder:text-grayBlack ",
     "[&::-webkit-datetime-edit]:text-grayBlack",
     "disabled:opacity-60",
     "[&::-webkit-calendar-picker-indicator]:hidden",
@@ -153,7 +153,7 @@ export function buildLabelClass(
   extra?: string,
 ): string {
   return cn(
-    "block select-none text-slate-700 dark:text-slate-300",
+    "block select-none ",
     sizeConfig[size].label,
     disabled && "opacity-50",
     extra,

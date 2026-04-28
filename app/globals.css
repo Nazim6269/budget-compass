@@ -8,6 +8,7 @@
   --primaryBg: #fbf8f2;
   --grayBlack: #4a4c56;
   --grayBlack2: #777980;
+  --grayBlack50: #e9e9ea;
   --textPrimary: #4a3a2f;
   --textSecondary: #5c473b;
   --si-bg: #fbf8f2;
@@ -38,6 +39,7 @@
   --color-lineBorder: var(--lineBorder);
   --color-grayBlack: var(--grayBlack);
   --color-grayBlack2: var(--grayBlack2);
+  --color-grayBlack50: var(--grayBlack50);
   --color-primaryBg: var(--primaryBg);
   --color-headingColor: var(--headingColor);
   --color-green-50: var(--green-50);

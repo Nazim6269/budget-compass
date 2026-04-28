@@ -52,6 +52,7 @@ export const GenericInput = forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref,
   ) {
+    const isRadio = type === "radio";
     const id = useInputId(providedId);
     const isPassword = type === "password";
     const showPasswordToggle = passwordToggleProp ?? isPassword;
@@ -137,6 +138,38 @@ export const GenericInput = forwardRef<HTMLInputElement, TextInputProps>(
       extra: inputClassName ?? className,
     });
 
+    if (isRadio) {
+      return (
+        <label className={cn("flex items-center gap-2", className)}>
+          <input
+            ref={ref}
+            type="radio"
+            name={name}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+            className="peer sr-only"
+            {...rest}
+          />
+
+          {/* Outer circle acts as state container */}
+          <div
+            className={cn(
+              "w-5 h-5 rounded-full border border-gray-400 flex items-center justify-center transition",
+              "peer-checked:border-[#4A3A2F]",
+              "peer-focus:ring-2 peer-focus:ring-[#4A3A2F]",
+              "[&>div]:scale-0 peer-checked:[&>div]:scale-100", 
+              disabled && "opacity-50 cursor-not-allowed",
+            )}
+          >
+            {/* Inner dot */}
+            <div className="w-3.5 h-3.5 rounded-full bg-[#4A3A2F] transition-transform duration-150" />
+          </div>
+
+          {label && <span className="text-headingColor font-semibold text-lg sm:text-2xl">{label}</span>}
+        </label>
+      );
+    }
     return (
       <InputWrapper
         id={id}

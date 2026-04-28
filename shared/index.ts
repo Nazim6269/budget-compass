@@ -26,3 +26,5 @@ export { default as CalendarIcon } from "./ui/icons/CalendarIcon";
 export { default as EyeOnIcon } from "./ui/icons/EyeOnIcon";
 export { default as WriteIcon } from "./ui/icons/WriteIcon";
 export { default as DeleteIcon } from "./ui/icons/DeleteIcon";
+export { default as CrossIcon } from "./ui/icons/CrossIcon";
+export { default as AddIcon } from "./ui/icons/AddIcon";

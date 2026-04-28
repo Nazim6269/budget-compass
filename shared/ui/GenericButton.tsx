@@ -7,18 +7,23 @@ const buttonVariants = cva(
     variants: {
       variant: {
         brown: "bg-[#4A3A2F] text-white leading-[124%]",
-        cream: "bg-[#F0EDD8] text-[#5C473B]",
+        cream: "bg-[#FBF8F2] text-headingColor border border-[#DFE1E7]",
       },
       size: {
         default: "px-4 py-2",
-        large: "px-6 py-3",
+        large: "p-4",
         small: "p-3",
       },
-      
+      align: {
+        left: "justify-start",
+        center: "justify-center",
+        right: "justify-end",
+      },
     },
     defaultVariants: {
       variant: "brown",
       size: "default",
+      align: "center",
 
     },
   },
@@ -42,10 +47,11 @@ const GenericButton = ({
   iconPosition = "left",
   className,
   size,
+  align,
 }: GenericButtonProps) => {
   return (
     <button
-      className={buttonVariants({ variant, size, className })}
+      className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
       type="button"
     >

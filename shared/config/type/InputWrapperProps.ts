@@ -32,7 +32,8 @@ export type InputType =
   | "color"
   | "range"
   | "file"
-  | "hidden";
+  | "hidden"
+  | "radio";
 
 // ─── Shared Styling Config ───────────────────────────────────────────────────
 
