@@ -6,7 +6,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        brown: "bg-[#4A3A2F] text-whiteColor",
+        brown: "bg-[#4A3A2F] text-white leading-[124%]",
         cream: "bg-[#F0EDD8] text-[#5C473B]",
       },
       size: {
@@ -50,7 +50,7 @@ const GenericButton = ({
       type="button"
     >
       {iconPosition === "left" && icon}
-      <span>{title}</span>
+      <span >{title}</span>
       {iconPosition === "right" && icon}
     </button>
   );
