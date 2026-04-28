@@ -21,7 +21,7 @@ const TableHeader = ({
       {/* Controls */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 w-full sm:w-auto">
         {section === "user" && (
-          <GenericInput type="date" suffix={<CalendarIcon />} size="lg" />
+          <GenericInput type="date" suffix={<CalendarIcon />} size="sm" />
         )}
         <GenericDropDown
           options={[

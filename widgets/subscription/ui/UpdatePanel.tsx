@@ -21,7 +21,7 @@ const UpdatePanel = () => {
   return (
     <div className=" bg-white p-3 sm:p-6 border-2 rounded-xl border-[#DFE1E7]">
       <div className="flex flex-col gap-4 sm:flex-row">
-        <div className="flex-1 flex justify-between items-center gap-2 p-4 border border-grayBlack50 rounded-xl bg-secondaryBg">
+        <div className="flex-1 flex justify-between items-center gap-2 p-4 border border-grayBlack50 rounded-xl bg-secondaryBg h-14">
           <GenericInput
             type="radio"
             name="subscription"
@@ -34,7 +34,7 @@ const UpdatePanel = () => {
             Billed every month
           </p>
         </div>
-        <div className="flex-1 flex justify-between items-center gap-2 p-4 border border-grayBlack50 rounded-lg bg-secondaryBg">
+        <div className="flex-1 flex justify-between items-center gap-2 p-4 border border-grayBlack50 rounded-lg bg-secondaryBg h-14">
           <GenericInput
             type="radio"
             name="subscription"

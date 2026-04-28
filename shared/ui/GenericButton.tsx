@@ -12,8 +12,8 @@ const buttonVariants = cva(
       size: {
         default: "px-4 py-2",
         mlarge: "px-4 py-3",
-        large: "p-4",
-        small: "p-3",
+        large: "h-12 p-4",
+        small: "h-9 p-3",
       },
       align: {
         left: "justify-start",

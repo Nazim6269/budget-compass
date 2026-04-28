@@ -20,7 +20,7 @@ export const sizeConfig: Record<
   }
 > = {
   sm: {
-    input: "h-8 px-3 text-xs",
+    input: "h-9 px-3 text-xs",
     label: "text-xs font-medium mb-0.5",
     helper: "text-[11px] mt-0.5",
     icon: "w-3.5 h-3.5",
@@ -44,7 +44,7 @@ export const sizeConfig: Record<
     radius: "rounded-lg",
   },
   lg: {
-    input: "p-4 text-base",
+    input: "p-3 text-base",
     label: "text-sm font-semibold mb-1.5",
     helper: "text-sm mt-1.5",
     icon: "w-5 h-5",

@@ -3,7 +3,7 @@ export const selectTokens = {
 
   variants: {
     dark: {
-      trigger: "bg-surface-base border border-black text-text-muted",
+      trigger: "bg-surface-base border text-text-muted",
       dropdown: "bg-surface-overlay border border-border-base shadow-xl",
       item: "text-text-base",
       itemHover:
@@ -21,8 +21,8 @@ export const selectTokens = {
   sizes: {
     sm: "h-8 px-2 text-xs ",
     md: "h-9 px-3 text-sm ",
-    lg: "p-3 text-sm ",
-    xlg: "p-4 text-sm ",
+    lg: "p-3 h-9 text-sm ",
+    xlg: "p-4 h-12 text-sm ",
   },
 
   radius: {

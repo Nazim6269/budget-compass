@@ -23,7 +23,7 @@ export function LogoutButton({ isCollapsed, onLogout }: LogoutButtonProps) {
       className={cn(
         "group flex w-full items-center gap-3 rounded-lg px-3 py-2.5",
         "text-base font-medium transition-all duration-200 ease-out",
-        "text-red-600 hover:bg-red-50",
+        "text-red-600 hover:bg-red-50 cursor-pointer",
         isCollapsed && "justify-center px-2"
       )}
     >
