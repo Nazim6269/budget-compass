@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import UserManagementHeader from "./UserManagementHeader";
 import GenericTable from "@/shared/ui/GenericTable";
 import { recentUsers } from "@/widgets/overview/ui/data";
 import { recentUsersTableConfig } from "@/shared/config/tableConfig";
 import { Pagination } from "@/shared/ui/Pagination";
 import { usePagination } from "@/shared";
+import TableHeader from "@/shared/ui/TableHeader";
 
 const UserManagement = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -30,7 +30,7 @@ const UserManagement = () => {
   });
   return (
     <div className="space-y-8 bg-white rouned-xl p-3 sm:p-6">
-      <UserManagementHeader />
+     <TableHeader title="User Management" section="user" />
       <GenericTable
         data={paginatedData}
         columns={recentUsersTableConfig}

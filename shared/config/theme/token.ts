@@ -21,7 +21,7 @@ export const selectTokens = {
   sizes: {
     sm: "h-8 px-2 text-xs ",
     md: "h-9 px-3 text-sm ",
-    lg: "p-4 text-sm ",
+    lg: "p-3 text-sm ",
   },
 
   radius: {

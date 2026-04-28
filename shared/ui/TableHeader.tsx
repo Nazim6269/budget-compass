@@ -1,28 +1,28 @@
-"use client";
+import React from "react";
+import { GenericInput } from "./GenericInput";
+import { CalendarIcon, Download } from "lucide-react";
+import GenericDropDown from "./GenericDropdown";
+import GenericButton from "./GenericButton";
 
-import { CalendarIcon } from "@/shared";
-import GenericButton from "@/shared/ui/GenericButton";
-import GenericDropDown from "@/shared/ui/GenericDropdown";
-import { GenericInput } from "@/shared/ui/GenericInput";
-import { Download } from "lucide-react";
-
-const UserManagementHeader = () => {
+const TableHeader = ({
+  title,
+  section,
+}: {
+  title: string;
+  section?: string;
+}) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       {/* Title */}
       <h2 className="text-headingColor text-lg sm:text-xl md:text-2xl font-semibold leading-[140%] tracking-[0.008rem]">
-        User Management
+        {title}
       </h2>
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 w-full sm:w-auto">
-        <GenericInput
-          type="date"
-          suffix={<CalendarIcon />}
-          size="lg"
-         
-        />
-
+        {section === "user" && (
+          <GenericInput type="date" suffix={<CalendarIcon />} size="lg" />
+        )}
         <GenericDropDown
           options={[
             { label: "Active", value: "Active" },
@@ -33,7 +33,7 @@ const UserManagementHeader = () => {
           variant="light"
           className="w-full sm:w-[142px]"
           size="lg"
-          onValueChange={()=>{}}
+          onValueChange={() => {}}
         />
 
         <GenericDropDown
@@ -62,4 +62,4 @@ const UserManagementHeader = () => {
   );
 };
 
-export default UserManagementHeader;
+export default TableHeader;
