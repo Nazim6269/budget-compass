@@ -30,7 +30,7 @@ export function useTabState({
   const searchParams = useSearchParams();
 
   const activeTab = useMemo(() => {
-    const param = searchParams.get(paramKey);
+    const param = searchParams?.get(paramKey);
     return param && (validTabs as string[]).includes(param) ? param : defaultTab;
   }, [searchParams, paramKey, validTabs, defaultTab]);
 
@@ -47,7 +47,7 @@ export function useTabState({
 
       if (tab === activeTab) return;
 
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString());
 
       if (tab === defaultTab) {
         params.delete(paramKey);
@@ -59,8 +59,8 @@ export function useTabState({
       const url = query ? `${pathname}?${query}` : pathname;
 
       replace
-        ? router.replace(url, { scroll })
-        : router.push(url, { scroll });
+        ? router.replace(url || "", { scroll })
+        : router.push(url || "", { scroll });
     },
     [activeTab, defaultTab, paramKey, pathname, replace, router, scroll, searchParams, validTabs]
   );
