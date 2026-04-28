@@ -15,7 +15,7 @@ const UserManagementHeader = () => {
       </h2>
 
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 w-full sm:w-auto">
         <GenericInput
           type="date"
           suffix={<CalendarIcon />}
@@ -33,6 +33,7 @@ const UserManagementHeader = () => {
           variant="light"
           className="w-full sm:w-[142px]"
           size="lg"
+          onValueChange={()=>{}}
         />
 
         <GenericDropDown
