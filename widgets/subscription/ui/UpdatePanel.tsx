@@ -77,7 +77,7 @@ const UpdatePanel = () => {
                 { label: "Yearly", value: "yearly" },
               ]}
               placeholder="Monthly"
-              size="lg"
+              size="xlg"
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
-import React from "react";
+import SettingPage from "@/pages/SettingPage";
 
-const SettingPage = () => {
-  return <div>SettingPage</div>;
+const SettingsPage = () => {
+  return <SettingPage />;
 };
 
-export default SettingPage
+export default SettingsPage

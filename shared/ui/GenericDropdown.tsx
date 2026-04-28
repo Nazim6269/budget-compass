@@ -28,7 +28,7 @@ export interface GenericDropDownProps {
   placeholder?: string;
   leftIcon?: React.ReactNode;
   variant?: "dark" | "light";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xlg";
   radius?: "sm" | "md" | "lg";
   searchable?: boolean;
   slots?: SelectSlots;

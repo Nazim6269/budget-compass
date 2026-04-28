@@ -8,7 +8,7 @@ import {
 
 // ─── Size & Variant Tokens ───────────────────────────────────────────────────
 
-export type InputSize = "sm" | "md" | "lg";
+export type InputSize = "sm" | "md" | "lg" | "xmd";
 export type InputVariant = "outlined" | "filled" | "ghost";
 export type InputState =
   | "default"

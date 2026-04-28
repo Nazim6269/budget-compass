@@ -35,6 +35,14 @@ export const sizeConfig: Record<
     iconPad: "px-3",
     radius: "rounded-lg",
   },
+  xmd: {
+    input: "h-10 px-4 py-3 text-sm",
+    label: "text-base font-medium mb-1",
+    helper: "text-xs mt-1",
+    icon: "w-4 h-4",
+    iconPad: "px-3",
+    radius: "rounded-lg",
+  },
   lg: {
     input: "p-4 text-base",
     label: "text-sm font-semibold mb-1.5",
@@ -58,7 +66,7 @@ export const variantConfig: Record<
   }
 > = {
   outlined: {
-    base: "border bg-white ",
+    base: "border bg-white border-[#DFE1E7]",
     focus:
       "focus:border-violet-500 focus:ring-0 dark:focus:border-violet-400",
     error:

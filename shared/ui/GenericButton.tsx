@@ -11,6 +11,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "px-4 py-2",
+        mlarge: "px-4 py-3",
         large: "p-4",
         small: "p-3",
       },
@@ -35,7 +36,7 @@ interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   iconPosition?: "left" | "right";
   title: string;
   className?: string;
-  size?: "default" | "large" | "small";
+  size?: "default" | "large" | "small" | "mlarge";
   width?: "full" | "fit";
 }
 

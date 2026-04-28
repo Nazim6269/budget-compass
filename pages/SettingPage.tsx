@@ -1,0 +1,82 @@
+"use client";
+import { DeleteIcon } from "@/shared";
+import { FileInput, TextInput } from "@/shared/model/input";
+import GenericButton from "@/shared/ui/GenericButton";
+import { GenericInput } from "@/shared/ui/GenericInput";
+import Image from "next/image";
+const SettingPage = () => {
+  return (
+    <div>
+      <div className="p-3 sm:p-6 rounded-lg bg-white border border-[#DFE&E3]">
+        <h1 className="text-center sm:text-left text-xl text-textPrimary font-bold leading-[120%] tracking-[0.006rem]">
+          Admin info
+        </h1>
+        <div className="flex flex-col sm:flex-row gap-6 mt-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Image
+              src="/user.png"
+              alt="Admin"
+              width={156}
+              height={156}
+              className="h-39 w-39 rounded-full object-cover"
+            />
+            <div className="flex flex-row sm:flex-col gap-2">
+              <GenericInput
+                type="file"
+                className="flex justify-center items-center rounded-lg bg-[#F6F8FA] w-8 h-8 "
+              />
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg p-2 bg-[#F6F8FA]">
+                <DeleteIcon />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <GenericInput
+              type="text"
+              placeholder="First Name"
+              label="First Name"
+              fullWidth
+              size="xmd"
+              labelClassName="text-grayBlack2 font-normal text-sm leading-[100%] mb-2"
+            />
+            <GenericInput
+              type="text"
+              placeholder="Last Name"
+              label="Last Name"
+              fullWidth
+              size="xmd"
+              labelClassName="text-grayBlack2 font-normal text-sm leading-[100%] mb-2"
+            />
+            <GenericInput
+              type="email"
+              placeholder="Email"
+              label="Email"
+              fullWidth
+              size="xmd"
+              labelClassName="text-grayBlack2 font-normal text-sm leading-[100%] mb-2"
+            />
+            <GenericInput
+              type="tel"
+              placeholder="Phone"
+              label="Phone"
+              fullWidth
+              size="xmd"
+              labelClassName="text-grayBlack2 font-normal text-sm leading-[100%] mb-2"
+            />
+          </div>
+        </div>
+        <div className="flex justify-end mt-3 sm:mt-8">
+          <GenericButton
+            title="Update info"
+            onClick={() => {}}
+            size="mlarge"
+            className="w-full sm:w-auto"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SettingPage;

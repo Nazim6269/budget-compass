@@ -5,6 +5,7 @@ import { usePasswordToggle } from "../model/usePasswordToggle";
 import { buildInputClass, cn, sizeConfig } from "../config/theme/inputTokens";
 import { TextInputProps } from "../config/type/InputWrapperProps";
 import { Spinner } from "./icons/Spinner";
+import FileUploadIcon from "./icons/FileUploadIcon";
 import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 
 export const GenericInput = forwardRef<HTMLInputElement, TextInputProps>(
@@ -53,6 +54,7 @@ export const GenericInput = forwardRef<HTMLInputElement, TextInputProps>(
     ref,
   ) {
     const isRadio = type === "radio";
+    const isFile = type === "file";
     const id = useInputId(providedId);
     const isPassword = type === "password";
     const showPasswordToggle = passwordToggleProp ?? isPassword;
@@ -138,6 +140,46 @@ export const GenericInput = forwardRef<HTMLInputElement, TextInputProps>(
       extra: inputClassName ?? className,
     });
 
+    // File input - render custom file upload with icon
+    if (isFile) {
+      return (
+        <div className={cn("flex items-center gap-2", className)}>
+          <input
+            ref={ref}
+            id={id}
+            name={name}
+            type="file"
+            disabled={disabled}
+            readOnly={readOnly}
+            required={required}
+            onChange={onChange}
+            aria-invalid={hasError ? "true" : undefined}
+            className="hidden"
+            {...rest}
+          />
+          <label
+            htmlFor={id}
+            className={cn(
+              "cursor-pointer flex items-center justify-center",
+              disabled && "cursor-not-allowed opacity-50"
+            )}
+          >
+            <FileUploadIcon />
+          </label>
+          {label && (
+            <span className={cn(
+              "text-sm text-gray-700",
+              disabled ? "cursor-not-allowed opacity-50" : "",
+              labelClassName
+            )}>
+              {label}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    // Radio input - render without InputWrapper to avoid size issues
     if (isRadio) {
       return (
         <label className={cn("flex items-center gap-2", className)}>
