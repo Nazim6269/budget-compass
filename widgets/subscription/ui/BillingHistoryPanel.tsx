@@ -2,13 +2,27 @@ import React, { useState } from "react";
 import TableHeader from "@/shared/ui/TableHeader";
 import { Pagination } from "@/shared/ui/Pagination";
 import GenericTable from "@/shared/ui/GenericTable";
-import { recentUsersTableConfig } from "@/shared/config/tableConfig";
 import { subscriptionTableConfig } from "../config/subscriptionTableConfig";
 import { usePagination } from "@/shared";
 import { subscriptionData } from "../config/subscriptionData";
+import { FilterProvider, useFilterContext, buildClientPredicate } from "@/features/filters2";
+import { USER_MANAGEMENT_FILTER_CONFIGS } from "@/features/filters2/config/filterConfig";
 
-const BillingHistoryPanel = () => {
-   const [itemsPerPage, setItemsPerPage] = useState(10);
+const BillingHistoryContent = () => {
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const { filters } = useFilterContext();
+
+    const filteredData = React.useMemo(() => {
+      const predicate = buildClientPredicate(USER_MANAGEMENT_FILTER_CONFIGS, filters);
+      return subscriptionData.filter((item) => {
+        const itemForPredicate = {
+          ...item,
+          billingCycle: item.plan,
+        };
+        return predicate(itemForPredicate as any);
+      });
+    }, [filters]);
+
     const {
       paginatedData,
       currentPage,
@@ -23,14 +37,14 @@ const BillingHistoryPanel = () => {
       startIndex,
       endIndex,
     } = usePagination({
-      data: subscriptionData,
+      data: filteredData,
       itemsPerPage: itemsPerPage,
       siblingCount: 1,
-      resetDeps: [subscriptionData, itemsPerPage], 
+      resetDeps: [filteredData, itemsPerPage], 
     });
   return (
     <div className="bg-white p-3 sm:p-6 rounded-xl space-y-8">
-      <TableHeader title="Transaction Logs" />
+      <TableHeader title="Transaction Logs" section="transactions" />
       <GenericTable
               data={paginatedData}
               columns={subscriptionTableConfig}
@@ -57,6 +71,14 @@ const BillingHistoryPanel = () => {
               onItemsPerPageChange={setItemsPerPage}
             />
     </div>
+  );
+};
+
+const BillingHistoryPanel = () => {
+  return (
+    <FilterProvider configs={USER_MANAGEMENT_FILTER_CONFIGS} syncUrl={false}>
+      <BillingHistoryContent />
+    </FilterProvider>
   );
 };
 

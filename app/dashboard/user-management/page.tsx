@@ -1,4 +1,4 @@
-import UserManagement from "@/widgets/user-management/ui/UserManagement";
+import UserManagement from "@/pages/UserManagement";
 
 const UserManagementPage = () => {
   return <UserManagement />;

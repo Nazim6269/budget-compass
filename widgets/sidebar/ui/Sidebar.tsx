@@ -37,8 +37,6 @@ export function Sidebar({
 
   const navId = useId();
   const handleItemClick = isMobile ? closeMobile : undefined;
-  console.log(navConfig,"navConfig")
-
   const sidebarPanel = (
     <aside
       ref={sidebarRef as React.RefObject<HTMLElement>}

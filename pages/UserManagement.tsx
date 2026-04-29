@@ -7,19 +7,30 @@ import { Pagination } from "@/shared/ui/Pagination";
 import { usePagination } from "@/shared";
 import TableHeader from "@/shared/ui/TableHeader";
 import { useModal } from "@/shared/model/useModal";
-import { ViewUserModal } from "./ViewUserModal";
-import { DeleteUserModal } from "./DeleteUserModal";
-import { EditUserModal } from "./EditUserModal";
+import { ViewUserModal } from "../widgets/user-management/ui/ViewUserModal";
+import { DeleteUserModal } from "../widgets/user-management/ui/DeleteUserModal";
+import { EditUserModal } from "../widgets/user-management/ui/EditUserModal";
 import { userActionToasts } from "@/shared/utils/toast";
+import { FilterProvider, useFilterContext, buildClientPredicate } from "@/features/filters2";
+import { USER_MANAGEMENT_FILTER_CONFIGS } from "@/features/filters2/config/filterConfig";
 
-const UserManagement = () => {
+function UserManagementTable() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const { filters } = useFilterContext();
   
-  // Modal states
-  const viewModal = useModal();
-  const deleteModal = useModal();
-  const editModal = useModal();
-  
+  // Apply filters to the data
+  const filteredUsers = React.useMemo(() => {
+    const predicate = buildClientPredicate(USER_MANAGEMENT_FILTER_CONFIGS, filters);
+    return recentUsers.filter((user) => {
+      const userForPredicate = {
+        ...user,
+        billingCycle: user.plan,
+      };
+      
+      return predicate(userForPredicate as any);
+    });
+  }, [filters]);
+
   const {
     paginatedData,
     currentPage,
@@ -34,11 +45,16 @@ const UserManagement = () => {
     startIndex,
     endIndex,
   } = usePagination({
-    data: recentUsers,
+    data: filteredUsers,
     itemsPerPage: itemsPerPage,
     siblingCount: 1,
-    resetDeps: [recentUsers, itemsPerPage], 
+    resetDeps: [filteredUsers, itemsPerPage], 
   });
+  
+  // Modal states
+  const viewModal = useModal();
+  const deleteModal = useModal();
+  const editModal = useModal();
 
   // Modal handlers
   const handleViewUser = (user: any) => {
@@ -82,6 +98,8 @@ const UserManagement = () => {
       userActionToasts.userUpdateFailed(userData.name, error instanceof Error ? error.message : "Unknown error");
     }
   };
+
+
   return (
     <div className="space-y-8 bg-white rouned-xl p-3 sm:p-6">
      <TableHeader title="User Management" section="user" />
@@ -135,6 +153,14 @@ const UserManagement = () => {
         onUpdate={handleUpdateUser}
       />
     </div>
+  );
+}
+
+const UserManagement = () => {
+  return (
+    <FilterProvider configs={USER_MANAGEMENT_FILTER_CONFIGS} syncUrl={true}>
+      <UserManagementTable />
+    </FilterProvider>
   );
 };
 

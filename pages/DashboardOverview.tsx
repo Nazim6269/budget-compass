@@ -2,14 +2,12 @@
 
 import React from "react";
 import { Users, CreditCard, DollarSign } from "lucide-react";
-import RegistrationsBarChart, {
-  DateRangeOption,
-  RegistrationDataPoint,
-} from "./RegistrationBarChart";
-import PlanDistributionChart, { PlanSegment } from "./PlanDistributionChart";
-import RecentUsersTable, { UserRecord } from "./RecentUsersTable";
-import MetricCard from "./MetricCard";
-import { recentUsers, registrationData } from "./data";
+
+import UsersPage from "@/pages/User";
+import PlanDistributionChart, { PlanSegment } from "@/widgets/overview/ui/PlanDistributionChart";
+import { MetricCard, RecentUsersTable } from "@/widgets/overview";
+import RegistrationsBarChart from "@/widgets/overview/ui/RegistrationBarChart";
+import { recentUsers, registrationData } from "@/widgets/overview/ui/data";
 
 
 
@@ -67,6 +65,7 @@ export default function DashboardOverview() {
       <section>
         <RecentUsersTable data={recentUsers} />
       </section>
+      <UsersPage />
     </main>
   );
 }

@@ -1,8 +1,10 @@
-import React from "react";
-import { GenericInput } from "./GenericInput";
-import { CalendarIcon, Download } from "lucide-react";
-import GenericDropDown from "./GenericDropdown";
+import { Download } from "lucide-react";
 import GenericButton from "./GenericButton";
+import {
+  FilterBar,
+  GenericDateRangeFilter,
+  GenericSelectFilter,
+} from "@/features/filters2";
 
 const TableHeader = ({
   title,
@@ -20,41 +22,20 @@ const TableHeader = ({
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 w-full sm:w-auto">
-        {section === "user" && (
-          <GenericInput type="date" suffix={<CalendarIcon />} size="sm" />
+        {(section === "user" || section === "transactions") && (
+          <FilterBar>
+            <GenericDateRangeFilter filterKey="subscribedAt" />
+            <GenericSelectFilter filterKey="status" />
+            <GenericSelectFilter filterKey="billingCycle" />
+          </FilterBar>
         )}
-        <GenericDropDown
-          options={[
-            { label: "Active", value: "Active" },
-            { label: "Inactive", value: "Inactive" },
-            { label: "All", value: "All" },
-          ]}
-          placeholder="Active"
-          variant="light"
-          className="w-full sm:w-[142px]"
-          size="lg"
-          onValueChange={() => {}}
-        />
-
-        <GenericDropDown
-          options={[
-            { label: "Yearly", value: "Yearly" },
-            { label: "Monthly", value: "Monthly" },
-            { label: "All", value: "All" },
-          ]}
-          placeholder="Yearly"
-          variant="light"
-          className="w-full sm:w-[142px]"
-          size="lg"
-        />
-
         <GenericButton
           title="Export List"
           variant="brown"
           onClick={() => {}}
           icon={<Download size={18} strokeWidth={2} />}
           iconPosition="left"
-          className="w-full sm:w-[142px] flex justify-center items-center gap-2"
+          className="w-full sm:w-35.5 flex justify-center items-center gap-2"
           size="small"
         />
       </div>
