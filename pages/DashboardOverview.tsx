@@ -65,7 +65,7 @@ export default function DashboardOverview() {
       <section>
         <RecentUsersTable data={recentUsers} />
       </section>
-      <UsersPage />
+      {/* <UsersPage /> */}
     </main>
   );
 }
