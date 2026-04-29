@@ -1,8 +1,12 @@
 import Subscription from "@/pages/Subscription";
-import React from "react";
+import React, { Suspense } from "react";
 
 const SubpscriptionPage = () => {
-  return <Subscription />
+  return (
+    <Suspense fallback={<div className="text-center text-headingColor">Loading...</div>}>
+      <Subscription />
+    </Suspense>
+  );
 };
 
 export default SubpscriptionPage;

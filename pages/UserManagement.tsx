@@ -71,8 +71,6 @@ function UserManagementTable() {
   };
 
   const handleConfirmDelete = (userId: string) => {
-    // Add delete logic here
-    console.log("Deleting user:", userId);
     const user = deleteModal.data;
     try {
       // Simulate API call
@@ -87,7 +85,6 @@ function UserManagementTable() {
 
   const handleUpdateUser = (userData: any) => {
     // Add update logic here
-    console.log("Updating user:", userData);
     try {
       // Simulate API call
       setTimeout(() => {
