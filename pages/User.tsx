@@ -41,8 +41,6 @@ const PLAN_STYLES: Record<string, string> = {
 
 function UsersTable() {
   const { filters } = useFilterContext();
-  console.log(filters,"UserTable")
-
   const visibleUsers = useMemo(() => {
     const predicate = buildClientPredicate<User>(USER_FILTER_CONFIGS, filters);
     return USERS.filter((user) => {
