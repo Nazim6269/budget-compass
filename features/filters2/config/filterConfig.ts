@@ -67,7 +67,7 @@ export const USER_FILTER_CONFIGS: FilterConfig[] = [
   },
 ];
 
-export const USER_MANAGEMENT_FILTER_CONFIGS: FilterConfig[] = [
+export const  USER_MANAGEMENT_FILTER_CONFIGS: FilterConfig[] = [
   
   {
     key: "status",
