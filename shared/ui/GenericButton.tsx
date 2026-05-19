@@ -37,7 +37,7 @@ interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   className?: string;
   size?: "default" | "large" | "small" | "mlarge";
   width?: "full" | "fit";
-  disabled?: boolean;
+  disabled?: boolean;  
 }
 
 const GenericButton = ({

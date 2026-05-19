@@ -1,20 +1,24 @@
-'use client'
+"use client";
 import GenericButton from "@/shared/ui/GenericButton";
 import { GenericInput } from "@/shared/ui/GenericInput";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+import { LoginFormValues, loginSchema } from "../model/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>();
+  } = useForm<LoginFormValues>({
+    mode: "onChange",
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: LoginFormValues) => {
