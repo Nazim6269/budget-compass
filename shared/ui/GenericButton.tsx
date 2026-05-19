@@ -25,7 +25,6 @@ const buttonVariants = cva(
       variant: "brown",
       size: "default",
       align: "center",
-
     },
   },
 );
@@ -38,6 +37,7 @@ interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   className?: string;
   size?: "default" | "large" | "small" | "mlarge";
   width?: "full" | "fit";
+  disabled?: boolean;
 }
 
 const GenericButton = ({
@@ -49,15 +49,17 @@ const GenericButton = ({
   className,
   size,
   align,
+  disabled,
 }: GenericButtonProps) => {
   return (
     <button
       className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
       type="button"
+      disabled={disabled}
     >
       {iconPosition === "left" && icon}
-      <span >{title}</span>
+      <span>{title}</span>
       {iconPosition === "right" && icon}
     </button>
   );
