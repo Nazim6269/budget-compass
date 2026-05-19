@@ -4,20 +4,49 @@ import React from "react";
 import { Users, CreditCard, DollarSign } from "lucide-react";
 
 import UsersPage from "@/pages/User";
-import PlanDistributionChart, { PlanSegment } from "@/widgets/overview/ui/PlanDistributionChart";
+import PlanDistributionChart, {
+  PlanSegment,
+} from "@/widgets/overview/ui/PlanDistributionChart";
 import { MetricCard, RecentUsersTable } from "@/widgets/overview";
 import RegistrationsBarChart from "@/widgets/overview/ui/RegistrationBarChart";
 import { recentUsers, registrationData } from "@/widgets/overview/ui/data";
-
-
+import { useModal } from "@/shared/model/useModal";
+import { LogoutConfirmModal } from "@/features/auth/ui/LogoutConfirmModal";
+import { authService } from "@/shared/config/container";
+import { useRouter } from "next/navigation";
 
 const planDistribution: PlanSegment[] = [
   { name: "Monthly Users", value: 60, color: "#5C473B" },
   { name: "Yearly Users", value: 40, color: "#D6C7B2" },
 ];
 
-
 export default function DashboardOverview() {
+  const logoutModal = useModal();
+  const router = useRouter();
+  const [logoutLoading, setLogoutLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    (window as any).__showDashboardLogoutModal = () => {
+      logoutModal.openModal();
+    };
+    return () => {
+      delete (window as any).__showDashboardLogoutModal;
+    };
+  }, [logoutModal]);
+
+  const handleConfirmLogout = async () => {
+    setLogoutLoading(true);
+    try {
+      await authService.logout();
+      router.replace("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      setLogoutLoading(false);
+      logoutModal.closeModal();
+    }
+  };
+
   return (
     <main className="min-h-screen  font-sans">
       <header className="mb-6">
@@ -66,6 +95,14 @@ export default function DashboardOverview() {
         <RecentUsersTable data={recentUsers} />
       </section>
       {/* <UsersPage /> */}
+      {logoutModal.isOpen && (
+        <LogoutConfirmModal
+          isOpen={logoutModal.isOpen}
+          onClose={logoutModal.closeModal}
+          onConfirm={handleConfirmLogout}
+          loading={logoutLoading}
+        />
+      )}
     </main>
   );
 }

@@ -41,6 +41,7 @@ export class AxiosHttpClient implements IHttpClient {
     this.instance = axios.create({
       baseURL: `${baseURL}/api/`,
       timeout: 15_000,
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

@@ -29,7 +29,6 @@ export class AuthService {
   async login(params: LoginParams): Promise<{ token: string }> {
     try {
       const { data } = await this.repo.login<AuthResponseDto>(params);
-      console.log(data);
 
       tokenStore.setAccessToken(data.access_token);
       this.scheduleRefreshToken(3600);
@@ -62,10 +61,10 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await this.repo.logout();
-      tokenStore.clearAccessToken();
     } catch (error) {
       logger.error(String(error), "Error during logout");
-      throw parseError(error);
+    } finally {
+      tokenStore.clearAccessToken();
     }
   }
 

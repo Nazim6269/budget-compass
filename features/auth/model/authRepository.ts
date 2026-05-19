@@ -13,7 +13,9 @@ export class AuthRepository {
   }
 
   refresh<T = unknown>() {
-    return this.http.post<T>("/auth/refresh", {}, { _skipAuth: true } as any);
+    return this.http.post<T>("/auth/refresh-token", {}, {
+      _skipAuth: true,
+    } as any);
   }
 
   logout<T = unknown>() {
