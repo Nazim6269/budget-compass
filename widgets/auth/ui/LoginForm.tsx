@@ -5,8 +5,11 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginFormValues, loginSchema } from "../model/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useLogin } from "@/features/auth/model/useLogin";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const LoginForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -19,13 +22,15 @@ const LoginForm = () => {
       password: "",
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutateAsync: login, isPending } = useLogin();
 
   const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
-    console.log(data);
-    // TODO: Implement login API call here
-    setIsLoading(false);
+    try {
+      await login(data);
+      router.push("/dashboard");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Login failed");
+    }
   };
 
   return (
@@ -72,10 +77,10 @@ const LoginForm = () => {
 
       {/* Button */}
       <GenericButton
-        title={isSubmitting ? "Logging in..." : "Login"}
+        title={isPending ? "Logging in..." : "Login"}
         size="mlarge"
         className="w-full"
-        disabled={isSubmitting}
+        disabled={isPending}
         onClick={() => {}}
       />
     </form>

@@ -50,12 +50,12 @@ const GenericButton = ({
   size,
   align,
   disabled,
-}: GenericButtonProps) => {
+}: GenericButtonProps) => {  
   return (
     <button
       className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
-      type="button"
+      type="submit"
       disabled={disabled}
     >
       {iconPosition === "left" && icon}

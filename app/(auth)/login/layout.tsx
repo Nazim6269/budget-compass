@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@/app/globals.css"
+import "@/app/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,9 +29,7 @@ export default function AuthLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex bg-secondaryBg">
-        <main className="flex-1 overflow-auto p-3 sm:p-5 ">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto p-3 sm:p-5 ">{children}</main>
       </body>
     </html>
   );
