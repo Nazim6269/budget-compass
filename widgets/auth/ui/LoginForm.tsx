@@ -8,8 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "@/features/auth/model/useLogin";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useAuth } from "@/shared/AuthProvider";
+
 const LoginForm = () => {
   const router = useRouter();
+  const { checkAuth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -27,6 +30,7 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await login(data);
+      await checkAuth();
       router.push("/dashboard");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Login failed");

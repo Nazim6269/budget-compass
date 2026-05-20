@@ -36,7 +36,7 @@ export class AxiosHttpClient implements IHttpClient {
   constructor(
     private readonly tokenStore: TokenStore,
     private readonly onTokenRefresh: () => Promise<string | null>,
-    baseURL: string = env.NEXT_PUBLIC_API_BASE_URL,
+    baseURL: string = typeof window !== "undefined" ? "" : env.NEXT_PUBLIC_API_BASE_URL,
   ) {
     this.instance = axios.create({
       baseURL: `${baseURL}/api/`,
@@ -58,20 +58,21 @@ export class AxiosHttpClient implements IHttpClient {
   private attachRequestInterceptors(): void {
     this.instance.interceptors.request.use(
       async (config: InternalAxiosRequestConfig) => {
+        const reqConfig = config as RequestConfig;
+        
         // Inject access token unless explicitly skipped
-        if (!(config as RequestConfig)._skipAuth) {
+        if (!reqConfig._skipAuth) {
           const token = this.tokenStore.getAccessToken();
           if (token) {
             config.headers.set("Authorization", `Bearer ${token}`);
           }
         }
 
-        // Correlation ID for distributed tracing
-        config.headers.set("X-Correlation-ID", crypto.randomUUID());
-
         logger.debug("HTTP Request", {
           method: config.method?.toUpperCase(),
           url: config.url,
+          skipAuth: reqConfig._skipAuth,
+          hasToken: !!this.tokenStore.getAccessToken(),
         });
 
         return config;
@@ -108,14 +109,34 @@ export class AxiosHttpClient implements IHttpClient {
         const originalRequest = error.config as RequestConfig &
           InternalAxiosRequestConfig;
 
+        // Log error except for expected 401s on refresh-token
+        const isRefreshToken401 =
+          error.response?.status === 401 &&
+          originalRequest?.url?.includes("/auth/refresh-token");
+
+        if (!isRefreshToken401) {
+          logger.error("HTTP Error", {
+            status: error.response?.status,
+            url: originalRequest?.url,
+            message: error.message,
+          });
+        } else {
+          logger.debug("Silent refresh returned 401 (expected if not logged in)");
+        }
+
         // ── 401 → Token Refresh Flow ────────────────────────────────────────
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (
+          error.response?.status === 401 &&
+          !originalRequest._retry &&
+          !originalRequest._skipAuth &&
+          !originalRequest.url?.includes("/auth/refresh-token")
+        ) {
           if (isRefreshing) {
             // Queue this request until refresh completes
             return new Promise((resolve, reject) => {
               failedQueue.push({ resolve, reject });
             }).then((token) => {
-              originalRequest.headers["Authorization"] = `Bearer ${token}`;
+              originalRequest.headers.set("Authorization", `Bearer ${token}`);
               return this.instance(originalRequest);
             });
           }
@@ -128,7 +149,7 @@ export class AxiosHttpClient implements IHttpClient {
             if (!newToken) throw new Error("Refresh failed");
 
             processQueue(null, newToken);
-            originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+            originalRequest.headers.set("Authorization", `Bearer ${newToken}`);
             return this.instance(originalRequest);
           } catch (refreshError) {
             processQueue(refreshError, null);
@@ -233,7 +254,10 @@ export class AxiosHttpClient implements IHttpClient {
   }
 
   async request<T>(config: RequestConfig): Promise<HttpResponse<T>> {
-    const axiosConfig: AxiosRequestConfig = {
+    const axiosConfig: AxiosRequestConfig & {
+      _skipAuth?: boolean;
+      _retry?: boolean;
+    } = {
       url: config.url,
       method: config.method ?? "GET",
       params: config.params,
@@ -242,6 +266,9 @@ export class AxiosHttpClient implements IHttpClient {
       timeout: config.timeout,
       signal: config.signal,
       responseType: config.responseType ?? "json",
+      withCredentials: true,
+      _skipAuth: config._skipAuth,
+      _retry: config._retry,
       onUploadProgress: config.onUploadProgress
         ? (e) =>
             config.onUploadProgress!(

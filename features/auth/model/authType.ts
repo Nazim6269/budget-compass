@@ -4,8 +4,16 @@ export interface UserDto {
 }
 
 export interface AuthResponseDto {
-  access_token: string;
+  access_token?: string;
+  authorization?: {
+    token?: string;
+    access_token?: string;
+    type?: string;
+    expires_in?: number;
+  };
   user?: UserDto;
+  success?: boolean;
+  message?: string;
 }
 
 export interface AuthUser {

@@ -1,5 +1,5 @@
 import { parseError } from "@/shared/api/api-errors";
-import { tokenStore } from "@/shared/api/token-store";
+import { tokenStore, isTokenExpired } from "@/shared/api/token-store";
 import {
   AuthResponseDto,
   AuthUser,
@@ -29,11 +29,24 @@ export class AuthService {
   async login(params: LoginParams): Promise<{ token: string }> {
     try {
       const { data } = await this.repo.login<AuthResponseDto>(params);
+      console.log("[AuthService] login response data:", data);
 
-      tokenStore.setAccessToken(data.access_token);
+      const token =
+        data.access_token ||
+        data.authorization?.token ||
+        data.authorization?.access_token;
+      if (!token) {
+        throw new Error("No token found in login response");
+      }
+
+      tokenStore.setAccessToken(token);
+      console.log(
+        "[AuthService] token stored in tokenStore:",
+        tokenStore.getAccessToken(),
+      );
       this.scheduleRefreshToken(3600);
       return {
-        token: data.access_token,
+        token: token,
       };
     } catch (error) {
       logger.error(String(error), "Error during login");
@@ -46,11 +59,21 @@ export class AuthService {
   ): Promise<{ token: string; user: AuthUser }> {
     try {
       const { data } = await this.repo.register<AuthResponseDto>(params);
-      tokenStore.setAccessToken(data.access_token);
+      console.log("[AuthService] register response data:", data);
+
+      const token =
+        data.access_token ||
+        data.authorization?.token ||
+        data.authorization?.access_token;
+      if (!token) {
+        throw new Error("No token found in registration response");
+      }
+
+      tokenStore.setAccessToken(token);
       this.scheduleRefreshToken(3600);
       return {
-        token: data.access_token,
-        user: transformUser(data.user!),
+        token: token,
+        user: transformUser(data.user || { email: params.email }),
       };
     } catch (error) {
       logger.error(String(error), "Error during registration");
@@ -71,16 +94,40 @@ export class AuthService {
   async refreshToken(): Promise<string | null> {
     if (this.refreshPromise) return this.refreshPromise;
 
+    // Check if current token is still valid
+    const currentToken = tokenStore.getAccessToken();
+    if (currentToken && !isTokenExpired(currentToken)) {
+      return currentToken;
+    }
+
     this.refreshPromise = this.repo
       .refresh<AuthResponseDto>()
       .then(({ data }) => {
-        tokenStore.setAccessToken(data.access_token);
+        console.log("[AuthService] refresh response data:", data);
+        const token =
+          data.access_token ||
+          data.authorization?.token ||
+          data.authorization?.access_token;
+        if (!token) {
+          throw new Error("No token found in refresh response");
+        }
+
+        tokenStore.setAccessToken(token);
         this.scheduleRefreshToken(3600);
-        return data.access_token;
+        return token;
       })
       .catch((error) => {
-        logger.error("Silent refresh failed", error);
-        tokenStore.clearAccessToken();
+        // Only clear token if we don't have a valid one and refresh failed
+        const token = tokenStore.getAccessToken();
+        if (!token || isTokenExpired(token)) {
+          logger.debug("Silent refresh failed and no valid token found", error);
+          tokenStore.clearAccessToken();
+        } else {
+          logger.warn(
+            "Silent refresh failed but existing token is still valid",
+            error,
+          );
+        }
         return null;
       })
       .finally(() => {
