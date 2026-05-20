@@ -1,5 +1,5 @@
 import { parseError } from "@/shared/api/api-errors";
-import { tokenStore, isTokenExpired } from "@/shared/api/token-store";
+import { tokenStore } from "@/shared/api/token-store";
 import {
   AuthResponseDto,
   AuthUser,
@@ -85,12 +85,67 @@ export class AuthService {
     }
   }
 
+  //forget password
+  async forgetPassword(email: string): Promise<void> {
+    try {
+      await this.repo.forgetPassword(email);
+    } catch (error) {
+      logger.error(String(error), "Error during forget password");
+      throw parseError(error);
+    }
+  }
+  //verify email
+  async verifyEmail(params: { email: string; token: string }) {
+    try {
+      console.log(params, "verifyemail");
+      const { data } = await this.repo.verifyEmail(params);
+      return data;
+    } catch (error) {
+      logger.error(String(error), "Error during verify email");
+      throw parseError(error);
+    }
+  }
+
+  //reset pass
+  async resetPassword(params: {
+    email: string;
+    password: string;
+    token: string;
+  }) {
+    try {
+      await this.repo.resetPassword(params);
+    } catch (error) {
+      logger.error(String(error), "Error during reset password");
+      throw parseError(error);
+    }
+  }
+
+  //change password
+  async changePassword(params: { oldPass: string; newPass: string }) {
+    try {
+      await this.repo.changPassword(params);
+    } catch (error) {
+      logger.error(String(error), "Error during change password");
+      throw parseError(error);
+    }
+  }
+  //verify resend email
+  async resendVerifyEmail(email: string) {
+    try {
+      await this.repo.resendVerifyEmail(email);
+    } catch (error) {
+      logger.error(String(error), "Error during resend verify email");
+      throw parseError(error);
+    }
+  }
+
+  //refresh token
   async refreshToken(): Promise<string | null> {
     if (this.refreshPromise) return this.refreshPromise;
 
     // Check if current token is still valid
     const currentToken = tokenStore.getAccessToken();
-    if (currentToken && !isTokenExpired(currentToken)) {
+    if (currentToken) {
       return currentToken;
     }
 
@@ -112,7 +167,7 @@ export class AuthService {
       .catch((error) => {
         // Only clear token if we don't have a valid one and refresh failed
         const token = tokenStore.getAccessToken();
-        if (!token || isTokenExpired(token)) {
+        if (!token) {
           logger.debug("Silent refresh failed and no valid token found", error);
           tokenStore.clearAccessToken();
         } else {
@@ -129,7 +184,6 @@ export class AuthService {
 
     return this.refreshPromise;
   }
-
   private scheduleRefreshToken(expiresIn: number) {
     const delay = (expiresIn - 60) * 1000;
     if (delay <= 0) return;

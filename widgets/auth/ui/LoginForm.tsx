@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginFormValues, loginSchema } from "../model/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLogin } from "@/features/auth/model/useLogin";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/shared/AuthProvider";
 import Link from "next/link";
+import { useLogin } from "@/features/auth/model/authHooks";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const LoginForm = () => {
       await login(data);
       await checkAuth();
       router.push("/dashboard");
-    } catch (error: any) {  
+    } catch (error: any) {
       toast.error(error?.response?.data?.message || "Login failed");
     }
   };
@@ -83,7 +83,7 @@ const LoginForm = () => {
         {/* Forgot Password Link */}
         <div className="flex justify-end mt-2">
           <Link
-          href="/forget-password"
+            href="/forget-password"
             className="cursor-pointer text-sm text-gray-600 hover:text-ash-600 transition underline"
           >
             Forgot password?

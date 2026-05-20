@@ -1,4 +1,3 @@
-import { GenericInput } from "@/shared/ui/GenericInput";
 import React, { useRef } from "react";
 
 export interface OtpInputProps {
@@ -58,29 +57,29 @@ export function OtpInput({
 
     updateValue(pasted);
 
-    focusInput(Math.min(pasted.length, length - 1));
+    const nextIndex =
+      pasted.length >= length ? length - 1 : pasted.length;
+
+    focusInput(nextIndex);
   };
 
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className="flex items-center flex-wrap justify-center gap-3">
       {digits.map((digit, idx) => (
-        <GenericInput
+        <input
           key={idx}
-          ref={(el: HTMLInputElement | null) => {
+          ref={(el) => {
             inputs.current[idx] = el;
           }}
+          type="text"
           value={digit}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleChange(idx, e.target.value)
-          }
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
-            handleKeyDown(idx, e)
-          }
+          onChange={(e) => handleChange(idx, e.target.value)}
+          onKeyDown={(e) => handleKeyDown(idx, e)}
           onPaste={handlePaste}
           inputMode="numeric"
+          autoComplete="one-time-code"
           maxLength={1}
-          fullWidth={false}
-          className={`h-14 w-14 text-center text-xl font-semibold rounded-xl bg-white transition focus:ring-2 focus:outline-none ${
+          className={`h-12 w-12 border text-textPrimary text-center text-xl font-semibold rounded-xl bg-white transition-all duration-200 focus:outline-none focus:ring-2 ${
             hasError
               ? "border-red-500/50 focus:ring-red-500/30"
               : digit

@@ -11,7 +11,7 @@ const buttonVariants = cva(
         red: "bg-red-600 text-white hover:bg-red-700",
         transparent: "bg-transparent text-headingColor border border-[#DFE1E7]",
       },
-      size: {  
+      size: {
         default: "px-4 py-2",
         mlarge: "px-4 py-3",
         large: "h-12 p-4",
@@ -40,6 +40,7 @@ interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   size?: "default" | "large" | "small" | "mlarge";
   width?: "full" | "fit";
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const GenericButton = ({
@@ -52,12 +53,13 @@ const GenericButton = ({
   size,
   align,
   disabled,
+  type = "submit",
 }: GenericButtonProps) => {
   return (
     <button
       className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
-      type="submit"
+      type={type}
       disabled={disabled}
     >
       {iconPosition === "left" && icon}

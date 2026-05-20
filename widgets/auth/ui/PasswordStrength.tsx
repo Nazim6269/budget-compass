@@ -7,7 +7,7 @@ export function PasswordStrength({ password }: { password: string }) {
 
   const strength = checks.filter((c) => c.pass).length;
 
-  const colors = ["bg-red-500", "bg-violet-500", "bg-emerald-500"];
+  const colors = ["bg-red-500", "bg-violet-500", "bg-emerald-600"];
   const labels = ["Weak", "Fair", "Strong"];
 
   if (!password) return null;
@@ -19,18 +19,18 @@ export function PasswordStrength({ password }: { password: string }) {
           <div
             key={i}
             className={`h-1 flex-1 rounded-full transition-all ${
-              i < strength ? colors[strength - 1] : "bg-white/10"
+              i < strength ? colors[strength - 1] : "bg-grayBlack50"
             }`}
           />
         ))}
 
         <span
-          className={`ml-1 text-xs font-medium ${
+          className={`ml-1 text-xs font-semibold ${
             strength === 3
-              ? "text-emerald-400"
+              ? "text-emerald-600"
               : strength === 2
-              ? "text-violet-300"
-              : "text-red-400"
+                ? "text-violet-600"
+                : "text-red-500"
           }`}
         >
           {labels[strength - 1] ?? ""}
@@ -41,7 +41,7 @@ export function PasswordStrength({ password }: { password: string }) {
         {checks.map((c) => (
           <span
             key={c.label}
-            className={`text-xs ${c.pass ? "text-emerald-400" : "text-zinc-600"}`}
+            className={`text-xs font-medium ${c.pass ? "text-emerald-600" : "text-grayBlack2"}`}
           >
             {c.pass ? "✓" : "·"} {c.label}
           </span>

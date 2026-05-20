@@ -1,71 +1,73 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { authService } from "./config/container";
-import { tokenStore, isTokenExpired } from "@/shared/api/token-store";
-import { usePathname } from "next/navigation";
+import { tokenStore } from "@/shared/api/token-store";
 
 type AuthContextType = {
   isAuthenticated: boolean;
   isLoading: boolean;
+  isBootstrapped: boolean;
   checkAuth: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   isLoading: true,
+  isBootstrapped: false,
   checkAuth: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const pathname = usePathname();
-  const [prevPathname, setPrevPathname] = useState(pathname);
+  const [isBootstrapped, setIsBootstrapped] = useState(false);
 
-  if (pathname !== prevPathname) {
-    setPrevPathname(pathname);
-    setIsLoading(true);
-  }
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
+      setIsLoading(true);
+
+      // 1. check memory token first
       const token = tokenStore.getAccessToken();
+
       if (token) {
         setIsAuthenticated(true);
-        setIsLoading(false);
         return;
       }
 
-      if (pathname === "/login") {
-        setIsAuthenticated(false);
-        setIsLoading(false);
-        return;
-      }
-
-      console.log("[AuthProvider] checkAuth: calling refreshToken API...");
+      // 2. silent refresh
       const refreshedToken = await authService.refreshToken();
-      console.log(
-        "[AuthProvider] checkAuth: refreshedToken response:",
-        refreshedToken,
-      );
-      setIsAuthenticated(!!refreshedToken);
-    } catch (error) {
+
+      if (refreshedToken) {
+        tokenStore.setAccessToken(refreshedToken);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch {
       setIsAuthenticated(false);
     } finally {
       setIsLoading(false);
+      setIsBootstrapped(true); // 🔥 IMPORTANT
     }
-  };
+  }, []);
 
   useEffect(() => {
     checkAuth();
-  }, [pathname]);
+  }, [checkAuth]);
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
         isLoading,
+        isBootstrapped,
         checkAuth,
       }}
     >

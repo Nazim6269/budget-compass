@@ -1,41 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner"; // swap for your toast lib if different
 import { Mail, ArrowLeft } from "lucide-react";
-import { useAuthResetStore } from "@/features/auth/model/store";
 import ForgetPassForm from "@/widgets/auth/ui/ForgetPassForm";
-import GenericButton from "@/shared/ui/GenericButton";
 import Link from "next/link";
-
-// ── Validation ────────────────────────────────────────────────────────────────
-
-const schema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
-});
-
-type FormValues = z.infer<typeof schema>;
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
-  const setEmail = useAuthResetStore((s) => s.setEmail);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-  });
-
   return (
     <main className="min-h-screen  text-foreground flex items-center justify-center px-4">
       {/* Subtle white background accents */}

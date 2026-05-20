@@ -3,22 +3,22 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { ShieldCheck, ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useResendCountdown } from "@/widgets/auth/model/useCountdown";
 import OtpForm from "@/widgets/auth/ui/OtpForm";
 import { useAuthResetStore } from "@/features/auth/model/store";
 import Link from "next/link";
+import { useResendEmail } from "@/features/auth/model/authHooks";
 
 export default function OtpPage() {
-  const router = useRouter();
   const { email } = useAuthResetStore();
   const { count, canResend, reset } = useResendCountdown(60);
-  const [resending, setResending] = useState(false);
+
+  const { mutateAsync: resendEmail, isPending: resendingLoading } =
+    useResendEmail();
 
   const handleResend = async () => {
-    setResending(true);
     try {
-      // await resendOtpService({ email });
+      await resendEmail(email);
       toast.success("New OTP sent to your email.");
       reset();
     } catch (err: unknown) {
@@ -26,8 +26,6 @@ export default function OtpPage() {
         (err as { response?: { data?: { message?: string } } })?.response?.data
           ?.message ?? "Could not resend OTP.";
       toast.error(message);
-    } finally {
-      setResending(false);
     }
   };
 
@@ -44,7 +42,7 @@ export default function OtpPage() {
 
       <div className="relative w-full max-w-md">
         {/* Card */}
-        <div className="rounded-2xl border border-border  p-8 shadow-lg">
+        <div className="rounded-2xl border border-border  p-4 sm:p-8 shadow-lg">
           {/* Back link */}
           <Link
             href="/forget-password"
@@ -63,9 +61,11 @@ export default function OtpPage() {
             Check your email
           </h1>
           <p className="mb-2 text-sm leading-relaxed text-textPrimary">
-            We sent a 4-digit code to
+            We sent a 6-digit code to
           </p>
-          <p className="mb-8 text-sm font-semibold text-textSecondary">{email || "your email"}</p>
+          <p className="mb-8 text-sm font-semibold text-textSecondary">
+            {email || "your email"}
+          </p>
 
           <OtpForm />
 
@@ -75,15 +75,17 @@ export default function OtpPage() {
             {canResend ? (
               <button
                 onClick={handleResend}
-                disabled={resending}
+                disabled={resendingLoading}
                 className="font-semibold text-textPrimary hover:text-textSecondary transition-colors disabled:opacity-60 cursor-pointer"
               >
-                {resending ? "Sending…" : "Resend OTP"}
+                {resendingLoading ? "Sending…" : "Resend OTP"}
               </button>
             ) : (
               <span className="text-grayBlack2">
                 Resend in{" "}
-                <span className="tabular-nums font-semibold text-textPrimary">{count}s</span>
+                <span className="tabular-nums font-semibold text-textPrimary">
+                  {count}s
+                </span>
               </span>
             )}
           </div>

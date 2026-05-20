@@ -3,28 +3,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
-import { tokenStore, isTokenExpired } from "@/shared/api/token-store";
 
 export function DashboardGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isBootstrapped } = useAuth();
 
-
-  // Check tokenStore directly to bypass React state transition lag
-  const hasValidToken = typeof window !== "undefined" && (() => {
-    const token = tokenStore.getAccessToken();
-    return token && !isTokenExpired(token);
-  })();
-
-  const isUserAuthenticated = isAuthenticated || !!hasValidToken;
-
-  useEffect(() => {
-    if (!isLoading && !isUserAuthenticated) {
-      router.replace("/login");
-    }
-  }, [isUserAuthenticated, isLoading, router, hasValidToken]);
-
-  if (isLoading) {
+  if (!isBootstrapped || isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
         Loading...
@@ -32,9 +16,14 @@ export function DashboardGuard({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!isUserAuthenticated) {
-    return null;
-  }
+  useEffect(() => {
+    if (isBootstrapped && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isBootstrapped, isAuthenticated, router]);
+
+  // prevent UI flash
+  if (!isAuthenticated) return null;
 
   return <>{children}</>;
 }

@@ -2,12 +2,12 @@
 import GenericButton from "@/shared/ui/GenericButton";
 import { GenericInput } from "@/shared/ui/GenericInput";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuthResetStore } from "@/features/auth/model/store";
 import { z } from "zod";
+import { useForgetPassword } from "@/features/auth/model/authHooks";
 
 const ForgetPassForm = () => {
   const router = useRouter();
@@ -33,12 +33,13 @@ const ForgetPassForm = () => {
       email: "",
     },
   });
-  // const { mutateAsync: forgetPassword, isPending } = useForgetPassword();
+  const { mutateAsync: forgetPassword, isPending } = useForgetPassword();
 
   const onSubmit = async ({ email }: FormValues) => {
     try {
+      await forgetPassword(email);
       setEmail(email);
-      toast.success("OTP sent! Check your inbox.");
+      toast.success("OTP sent! Check your email.");
       router.push("/otp");
     } catch (err: unknown) {
       const message =
@@ -71,7 +72,7 @@ const ForgetPassForm = () => {
 
       {/* Submit */}
       <GenericButton
-        title={isSubmitting ? "Sending..." : "Send reset code"}
+        title={isPending ? "Sending..." : "Send reset code"}
         size="mlarge"
         className="w-full"
         disabled={isSubmitting}
