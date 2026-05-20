@@ -29,7 +29,6 @@ export class AuthService {
   async login(params: LoginParams): Promise<{ token: string }> {
     try {
       const { data } = await this.repo.login<AuthResponseDto>(params);
-      console.log("[AuthService] login response data:", data);
 
       const token =
         data.access_token ||
@@ -40,10 +39,6 @@ export class AuthService {
       }
 
       tokenStore.setAccessToken(token);
-      console.log(
-        "[AuthService] token stored in tokenStore:",
-        tokenStore.getAccessToken(),
-      );
       this.scheduleRefreshToken(3600);
       return {
         token: token,
@@ -59,7 +54,6 @@ export class AuthService {
   ): Promise<{ token: string; user: AuthUser }> {
     try {
       const { data } = await this.repo.register<AuthResponseDto>(params);
-      console.log("[AuthService] register response data:", data);
 
       const token =
         data.access_token ||
@@ -103,7 +97,6 @@ export class AuthService {
     this.refreshPromise = this.repo
       .refresh<AuthResponseDto>()
       .then(({ data }) => {
-        console.log("[AuthService] refresh response data:", data);
         const token =
           data.access_token ||
           data.authorization?.token ||

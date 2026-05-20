@@ -103,6 +103,7 @@ export class AxiosHttpClient implements IHttpClient {
           status: response.status,
           url: response.config.url,
         });
+
         return response;
       },
       async (error) => {

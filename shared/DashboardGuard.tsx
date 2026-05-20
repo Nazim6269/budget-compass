@@ -9,7 +9,6 @@ export function DashboardGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
 
-  console.log("[DashboardGuard] Render. isLoading:", isLoading, "isAuthenticated:", isAuthenticated);
 
   // Check tokenStore directly to bypass React state transition lag
   const hasValidToken = typeof window !== "undefined" && (() => {
