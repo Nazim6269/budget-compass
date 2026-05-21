@@ -1,27 +1,41 @@
-'use client'
+"use client";
 import GenericButton from "@/shared/ui/GenericButton";
 import { GenericInput } from "@/shared/ui/GenericInput";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+import { LoginFormValues, loginSchema } from "../model/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useAuth } from "@/shared/AuthProvider";
+import Link from "next/link";
+import { useLogin } from "@/features/auth/model/authHooks";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const { checkAuth } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>();
-  const [isLoading, setIsLoading] = useState(false);
+  } = useForm<LoginFormValues>({
+    mode: "onChange",
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const { mutateAsync: login, isPending } = useLogin();
 
   const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
-    console.log(data);
-    // TODO: Implement login API call here
-    setIsLoading(false);
+    try {
+      await login(data);
+      await checkAuth();
+      router.push("/dashboard");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Login failed");
+    }
   };
 
   return (
@@ -61,17 +75,28 @@ const LoginForm = () => {
             },
           })}
         />
+
         {errors.password && (
           <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
         )}
+
+        {/* Forgot Password Link */}
+        <div className="flex justify-end mt-2">
+          <Link
+            href="/forget-password"
+            className="cursor-pointer text-sm text-gray-600 hover:text-ash-600 transition underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
       </div>
 
       {/* Button */}
       <GenericButton
-        title={isSubmitting ? "Logging in..." : "Login"}
+        title={isPending ? "Logging in..." : "Login"}
         size="mlarge"
         className="w-full"
-        disabled={isSubmitting}
+        disabled={isPending}
         onClick={() => {}}
       />
     </form>

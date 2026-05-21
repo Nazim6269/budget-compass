@@ -8,6 +8,8 @@ const buttonVariants = cva(
       variant: {
         brown: "bg-[#4A3A2F] text-white leading-[124%]",
         cream: "bg-[#FBF8F2] text-headingColor border border-[#DFE1E7]",
+        red: "bg-red-600 text-white hover:bg-red-700",
+        transparent: "bg-transparent text-headingColor border border-[#DFE1E7]",
       },
       size: {
         default: "px-4 py-2",
@@ -55,8 +57,8 @@ const GenericButton = ({
     <button
       className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
-      type="button"
       disabled={disabled}
+      type="submit"
     >
       {iconPosition === "left" && icon}
       <span>{title}</span>

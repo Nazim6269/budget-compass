@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@/app/globals.css"
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import "@/app/globals.css";
+import { Providers } from "@/shared/Providers";
 
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Dashboard",
+  title: "Bendrummond",
   description: "Admin Dashboard for Bendrummond",
 };
 
-export default function AuthLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -24,12 +22,14 @@ export default function AuthLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning={true}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex bg-secondaryBg">
-        <main className="flex-1 overflow-auto p-3 sm:p-5 ">
-          {children}
-        </main>
+      <body
+        suppressHydrationWarning={true}
+        className="h-full text-foreground"
+      >
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
