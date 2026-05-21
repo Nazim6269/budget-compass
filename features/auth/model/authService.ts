@@ -6,6 +6,7 @@ import {
   UserDto,
   LoginParams,
   RegisterParams,
+  UpdateProfileParams,
 } from "./authType";
 import { logger } from "@/shared/api/logger";
 import { AuthRepository } from "./authRepository";
@@ -113,7 +114,8 @@ export class AuthService {
     token: string;
   }) {
     try {
-      await this.repo.resetPassword(params);
+      const res = await this.repo.resetPassword(params);
+      console.log(res, "resetPassword");
     } catch (error) {
       logger.error(String(error), "Error during reset password");
       throw parseError(error);
@@ -135,6 +137,17 @@ export class AuthService {
       await this.repo.resendVerifyEmail(email);
     } catch (error) {
       logger.error(String(error), "Error during resend verify email");
+      throw parseError(error);
+    }
+  }
+
+  //update profile
+  async updateProfile(params: UpdateProfileParams) {
+    try {
+      const { data } = await this.repo.updateProfile(params);
+      return data;
+    } catch (error) {
+      logger.error(String(error), "Error during update profile");
       throw parseError(error);
     }
   }

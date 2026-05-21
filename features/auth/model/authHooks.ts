@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LoginParams } from "./authType";
+import { LoginParams, UpdateProfileParams } from "./authType";
 import { authService } from "@/shared/config/container";
 import { authKeys } from "./authKeys";
 import { toast } from "sonner";
@@ -105,6 +105,19 @@ export const useResendEmail = () => {
     },
     onError: (err) => {
       toast.error(err.message || "Resend Email Failed");
+    },
+  });
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UpdateProfileParams) => authService.updateProfile(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
+    },
+    onError: (err) => {
+      toast.error(err.message || "Update Profile Failed");
     },
   });
 };

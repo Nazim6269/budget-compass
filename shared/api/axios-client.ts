@@ -36,7 +36,9 @@ export class AxiosHttpClient implements IHttpClient {
   constructor(
     private readonly tokenStore: TokenStore,
     private readonly onTokenRefresh: () => Promise<string | null>,
-    baseURL: string = typeof window !== "undefined" ? "" : env.NEXT_PUBLIC_API_BASE_URL,
+    baseURL: string = typeof window !== "undefined"
+      ? ""
+      : env.NEXT_PUBLIC_API_BASE_URL,
   ) {
     this.instance = axios.create({
       baseURL: `${baseURL}/api/`,
@@ -53,13 +55,10 @@ export class AxiosHttpClient implements IHttpClient {
     this.attachResponseInterceptors();
   }
 
-  // ─── Interceptors ─────────────────────────────────────────────────────────
-
   private attachRequestInterceptors(): void {
     this.instance.interceptors.request.use(
       async (config: InternalAxiosRequestConfig) => {
         const reqConfig = config as RequestConfig;
-        
         // Inject access token unless explicitly skipped
         if (!reqConfig._skipAuth) {
           const token = this.tokenStore.getAccessToken();
@@ -122,7 +121,9 @@ export class AxiosHttpClient implements IHttpClient {
             message: error.message,
           });
         } else {
-          logger.debug("Silent refresh returned 401 (expected if not logged in)");
+          logger.debug(
+            "Silent refresh returned 401 (expected if not logged in)",
+          );
         }
 
         // ── 401 → Token Refresh Flow ────────────────────────────────────────

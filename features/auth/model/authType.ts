@@ -32,3 +32,12 @@ export interface RegisterParams {
   githubUsername?: string;
   confirmPassword?: string;
 }
+
+export interface UpdateProfileParams {
+  image?: string;
+  name?: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
+  billReminders?: boolean;
+  notificaitonReminders?: boolean; 
+}

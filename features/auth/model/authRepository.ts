@@ -1,5 +1,5 @@
 import { IHttpClient } from "@/shared/api/http-client";
-import { LoginParams, RegisterParams } from "./authType";
+import { LoginParams, RegisterParams, UpdateProfileParams } from "./authType";
 
 export class AuthRepository {
   constructor(private readonly http: IHttpClient) {}
@@ -13,7 +13,7 @@ export class AuthRepository {
   }
 
   refresh<T = unknown>() {
-    return this.http.post<T>("/auth/refresh-token", {}, { _skipAuth: true });
+    return this.http.post<T>("/auth/refresh-token", {});
   }
 
   logout<T = unknown>() {
@@ -37,5 +37,9 @@ export class AuthRepository {
   }
   verifyEmail<T = unknown>(data: { email: string; token: string }) {
     return this.http.post<T>("/auth/verify-email", data);
+  }
+
+  updateProfile<T = unknown>(data: UpdateProfileParams) {
+    return this.http.patch<T>("/auth/update", data);
   }
 }

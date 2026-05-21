@@ -18,7 +18,8 @@ export default function OtpPage() {
 
   const handleResend = async () => {
     try {
-      await resendEmail(email);
+      const res = await resendEmail(email);
+
       toast.success("New OTP sent to your email.");
       reset();
     } catch (err: unknown) {

@@ -1,4 +1,7 @@
-import { useResetPassword } from "@/features/auth/model/authHooks";
+import {
+  useChangePassword,
+  useResetPassword,
+} from "@/features/auth/model/authHooks";
 import { useAuthResetStore } from "@/features/auth/model/store";
 import GenericButton from "@/shared/ui/GenericButton";
 import { GenericInput } from "@/shared/ui/GenericInput";
@@ -10,26 +13,21 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-const schema = z
-  .object({
-    new_password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number"),
-    confirm_password: z.string().min(1, "Please confirm your password"),
-  })
-  .refine((d) => d.new_password === d.confirm_password, {
-    message: "Passwords do not match",
-    path: ["confirm_password"],
-  });
+const schema = z.object({
+  new_password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number"),
+  old_password: z.string().min(8, "Password must be at least 8 characters"),
+});
 
 type FormValues = z.infer<typeof schema>;
 
 export function ResetPassForm() {
   const router = useRouter();
   const { email, otp, clear } = useAuthResetStore();
-  const { mutateAsync: resetPassword, isPending } = useResetPassword();
+  const { mutateAsync: changePassword, isPending } = useChangePassword();
 
   const {
     register,
@@ -40,7 +38,7 @@ export function ResetPassForm() {
     resolver: zodResolver(schema),
     defaultValues: {
       new_password: "",
-      confirm_password: "",
+      old_password: "",  
     },
   });
 
@@ -48,10 +46,10 @@ export function ResetPassForm() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await resetPassword({
-        email,
-        token: otp,
-        password: data.new_password,
+      console.log(data, "Reset Password Form");
+      await changePassword({
+        oldPass: data.old_password,
+        newPass: data.new_password,
       });
 
       toast.success("Password reset successfully!");
@@ -68,15 +66,17 @@ export function ResetPassForm() {
       <div>
         <GenericInput
           type="password"
-          label="New password"
-          placeholder="At least 8 characters"
+          label="Old password"
+          placeholder="Enter your old password"
           fullWidth
           size="xmd"
           labelClassName="text-grayBlack2 font-normal text-sm mb-2"
-          {...register("new_password")}
+          {...register("old_password")}
         />
-        {errors.new_password && (
-          <p className="text-red-500 text-sm mt-1">{errors.new_password.message}</p>
+        {errors.old_password && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.old_password.message}
+          </p>
         )}
       </div>
 
@@ -84,15 +84,17 @@ export function ResetPassForm() {
       <div>
         <GenericInput
           type="password"
-          label="Confirm password"
-          placeholder="Repeat password"
+          label="New Password"
+          placeholder="Enter your new password"
           fullWidth
           size="xmd"
           labelClassName="text-grayBlack2 font-normal text-sm mb-2"
-          {...register("confirm_password")}
+          {...register("new_password")}
         />
-        {errors.confirm_password && (
-          <p className="text-red-500 text-sm mt-1">{errors.confirm_password.message}</p>
+        {errors.old_password && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.old_password.message}
+          </p>
         )}
       </div>
 
@@ -107,9 +109,7 @@ export function ResetPassForm() {
         className="w-full flex items-center justify-center gap-2"
         disabled={isPending}
         icon={
-          isPending ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : undefined
+          isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : undefined
         }
       />
     </form>
