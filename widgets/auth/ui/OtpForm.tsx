@@ -78,7 +78,6 @@ const OtpForm = () => {
       {/* Verify button */}
       <GenericButton
         onClick={handleSubmit(onSubmit)}
-        type="submit"
         title={isSubmitting ? "Verifying…" : "Verify code"}
         size="mlarge"
         className="w-full flex items-center justify-center gap-2"

@@ -40,7 +40,6 @@ interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   size?: "default" | "large" | "small" | "mlarge";
   width?: "full" | "fit";
   disabled?: boolean;
-  type?: "button" | "submit" | "reset";
 }
 
 const GenericButton = ({
@@ -53,14 +52,13 @@ const GenericButton = ({
   size,
   align,
   disabled,
-  type = "submit",
 }: GenericButtonProps) => {
   return (
     <button
       className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
-      type={type}
       disabled={disabled}
+      type="submit"
     >
       {iconPosition === "left" && icon}
       <span>{title}</span>
