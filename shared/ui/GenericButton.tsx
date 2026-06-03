@@ -32,7 +32,7 @@ const buttonVariants = cva(
 );
 
 interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
-  onClick: () => void;
+  onClick?: () => void;
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
   title: string;
@@ -40,6 +40,7 @@ interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   size?: "default" | "large" | "small" | "mlarge";
   width?: "full" | "fit";
   disabled?: boolean;
+  type?: "button" | "submit";
 }
 
 const GenericButton = ({
@@ -50,6 +51,7 @@ const GenericButton = ({
   iconPosition = "left",
   className,
   size,
+  type = "submit",
   align,
   disabled,
 }: GenericButtonProps) => {
@@ -58,7 +60,7 @@ const GenericButton = ({
       className={buttonVariants({ variant, size, className, align })}
       onClick={onClick}
       disabled={disabled}
-      type="submit"
+      type={type}
     >
       {iconPosition === "left" && icon}
       <span>{title}</span>

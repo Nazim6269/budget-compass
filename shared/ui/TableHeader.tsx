@@ -21,7 +21,7 @@ const TableHeader = ({
       </h2>
 
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 w-full sm:w-auto">
+      <div className="flex flex-col 2xl:flex-row  gap-2 w-full sm:w-auto">
 
         {(section === "user" || section === "transactions") && (
           <FilterBar>

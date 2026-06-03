@@ -114,10 +114,25 @@ export const useUpdateProfile = () => {
   return useMutation({
     mutationFn: (data: UpdateProfileParams) => authService.updateProfile(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
+      queryClient.invalidateQueries({ queryKey: authKeys.updateProfile() });
     },
     onError: (err) => {
       toast.error(err.message || "Update Profile Failed");
+    },
+  });
+};
+
+export const resetPassword = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  return useMutation({
+    mutationFn: (data: any) => authService.resetPassword(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.resetPassword() });
+      router.push("/login");
+    },
+    onError: (err) => {
+      toast.error(err.message || "Reset Password Failed");
     },
   });
 };
