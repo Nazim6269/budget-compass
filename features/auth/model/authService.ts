@@ -10,6 +10,7 @@ import {
 } from "./authType";
 import { logger } from "@/shared/api/logger";
 import { AuthRepository } from "./authRepository";
+import { toast } from "sonner";
 
 // ---------------------------------------------------------------------------
 // Transformers
@@ -25,7 +26,7 @@ function transformUser(dto: UserDto): AuthUser {
 export class AuthService {
   private refreshPromise?: Promise<string | null> | null = null;
 
-  constructor(private readonly repo: AuthRepository) {}
+  constructor(private readonly repo: AuthRepository) { }
 
   async login(params: LoginParams): Promise<{ token: string }> {
     try {
@@ -115,7 +116,6 @@ export class AuthService {
   }) {
     try {
       const res = await this.repo.resetPassword(params);
-      console.log(res, "resetPassword");
     } catch (error) {
       logger.error(String(error), "Error during reset password");
       throw parseError(error);

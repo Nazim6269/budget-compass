@@ -51,13 +51,11 @@ export const useForgetPassword = () => {
 
 export const useResetPassword = () => {
   const queryClient = useQueryClient();
-  const router = useRouter();
   return useMutation({
     mutationFn: (params: { email: string; password: string; token: string }) =>
       authService.resetPassword(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
-      router.push("/login");
     },
     onError: (err) => {
       toast.error(err.message || "Reset Password Failed");

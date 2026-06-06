@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import z from "zod";
 
 const schema = z.object({
-  otp: z.string().min(6, "OTP must be at least 6 characters"),
   new_password: z.string().min(8, "Password must be at least 8 characters"),
   // .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
   // .regex(/[0-9]/, "Password must contain at least one number"),
@@ -42,11 +41,11 @@ export function ResetPassForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       console.log(data, "reset");
-      // await resetPassword({
-      //   email,
-      //   token: data.otp,
-      //   password: data.new_password,
-      // });
+      await resetPassword({
+        email,
+        token: otp,
+        password: data.new_password,
+      });
 
       toast.success("Password reset successfully!");
       clear();
@@ -78,7 +77,7 @@ export function ResetPassForm() {
       {/* Submit Button */}
       <GenericButton
         title={isPending ? "Resetting..." : "Reset password"}
-        onClick={() => handleSubmit(onSubmit)}
+        onClick={handleSubmit(onSubmit)}
         size="mlarge"
         className="w-full flex items-center justify-center gap-2"
         icon={

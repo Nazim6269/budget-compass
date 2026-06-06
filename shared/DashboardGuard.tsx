@@ -8,6 +8,12 @@ export function DashboardGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { isAuthenticated, isLoading, isBootstrapped } = useAuth();
 
+  useEffect(() => {
+    if (isBootstrapped && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isBootstrapped, isAuthenticated, router]);
+
   if (!isBootstrapped || isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -15,12 +21,6 @@ export function DashboardGuard({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (isBootstrapped && !isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [isBootstrapped, isAuthenticated, router]);
 
   // prevent UI flash
   if (!isAuthenticated) return null;
