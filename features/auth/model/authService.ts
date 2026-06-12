@@ -4,6 +4,7 @@ import {
   AuthResponseDto,
   AuthUser,
   UserDto,
+  UserProfileDto,
   LoginParams,
   RegisterParams,
   UpdateProfileParams,
@@ -145,9 +146,21 @@ export class AuthService {
   async updateProfile(params: UpdateProfileParams) {
     try {
       const { data } = await this.repo.updateProfile(params);
+      console.log(data)
       return data;
     } catch (error) {
       logger.error(String(error), "Error during update profile");
+      throw parseError(error);
+    }
+  }
+
+  //get me
+  async getMe() {
+    try {
+      const { data } = await this.repo.getMe<UserProfileDto>();
+      return data;
+    } catch (error) {
+      logger.error(String(error), "Error fetching user profile");
       throw parseError(error);
     }
   }

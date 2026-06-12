@@ -3,6 +3,15 @@ export interface UserDto {
   type?: string;
 }
 
+export interface UserProfileDto {
+  email?: string;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  image?: string;
+}
+
 export interface AuthResponseDto {
   access_token?: string;
   authorization?: {

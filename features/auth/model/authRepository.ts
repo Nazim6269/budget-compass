@@ -42,4 +42,8 @@ export class AuthRepository {
   updateProfile<T = unknown>(data: UpdateProfileParams) {
     return this.http.patch<T>("/auth/update", data);
   }
+
+  getMe<T = unknown>() {
+    return this.http.get<T>("/auth/me");
+  }
 }

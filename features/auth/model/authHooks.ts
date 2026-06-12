@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LoginParams, UpdateProfileParams } from "./authType";
 import { authService } from "@/shared/config/container";
 import { authKeys } from "./authKeys";
@@ -107,11 +107,19 @@ export const useResendEmail = () => {
   });
 };
 
+export const useMe = () => {
+  return useQuery({
+    queryKey: authKeys.me(),
+    queryFn: () => authService.getMe(),
+  });
+};
+
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: UpdateProfileParams) => authService.updateProfile(data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.me() });
       queryClient.invalidateQueries({ queryKey: authKeys.updateProfile() });
     },
     onError: (err) => {
