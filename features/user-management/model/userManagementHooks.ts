@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { userManagementKeys } from "./userManagementKeys";
-import { UserManagementService } from "./userManagementService";
+import { container } from "@/shared/config/container";
 
 export const useGetUsers = () => {
   return useQuery({
     queryKey: userManagementKeys.all,
-    queryFn: () => UserManagementService.getAllUsers()
+    queryFn: () => container.userManagementService.getAllUsers()
   });
 };

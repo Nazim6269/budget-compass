@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import GenericTable from "@/shared/ui/GenericTable";
-import { recentUsers } from "@/widgets/overview/ui/data";
 import { recentUsersTableConfig } from "@/shared/config/tableConfig";
 import { Pagination } from "@/shared/ui/Pagination";
 import { usePagination } from "@/shared";
@@ -22,11 +21,7 @@ import { useGetUsers } from "@/features/user-management/model/userManagementHook
 function UserManagementTable() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { filters } = useFilterContext();
-  const data = useGetUsers();
-  console.log("Fetched users data:", data);
-
-  const usersData = React.useMemo(() => data ?? [], [data]);
-  console.log(usersData, "users data")
+  const { data: usersData = [] } = useGetUsers();
 
   // Apply filters to the data
   const filteredUsers = React.useMemo(() => {
