@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { DeleteIcon } from "@/shared";
 import GenericButton from "@/shared/ui/GenericButton";
 import { GenericInput } from "@/shared/ui/GenericInput";
@@ -13,7 +13,6 @@ const schema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   phoneNumber: z.string(),
-  image: z.any().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -22,9 +21,12 @@ const AdminProfile = () => {
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
   const { data: profile } = useMe();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [deleteImage, setDeleteImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     return () => {
-      if (previewUrl && previewUrl.startsWith("blob:")) {
+      if (previewUrl?.startsWith("blob:")) {
         URL.revokeObjectURL(previewUrl);
       }
     };
@@ -34,32 +36,36 @@ const AdminProfile = () => {
   const [firstName = "", ...rest] = fullName.trim().split(" ");
   const lastName = rest.join(" ");
 
-  // The backend avatar_url has a bug: it concatenates "avatar" + filename without a "/"
-  // e.g. "/public/storage/avatarfilename.jpg" instead of "/public/storage/avatar/filename.jpg"
-  // We fix it by detecting and correcting this at runtime.
   const fixAvatarUrl = (url: string | undefined | null): string => {
     if (!url) return "/noImage.jpg";
-    // Insert "/" between "avatar" prefix and the filename if missing
     return url.replace(/\/avatar([^/])/, "/avatar/$1");
   };
 
   const avatarSrc = previewUrl || fixAvatarUrl(profile?.data?.avatar_url);
 
-
   const {
     register,
     handleSubmit,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    values: {
-      firstName: profile?.data?.firstName || firstName,
-      lastName: profile?.data?.lastName || lastName,
-      phoneNumber: profile?.data?.phone_number || "",
-      image: profile?.data?.avatar,
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
     },
   });
+
+  useEffect(() => {
+    if (profile) {
+      reset({
+        firstName: profile?.data?.firstName || firstName,
+        lastName: profile?.data?.lastName || lastName,
+        phoneNumber: profile?.data?.phone_number || "",
+      });
+    }
+  }, [profile]);
 
   const onSubmit = async (data: FormValues) => {
     try {
@@ -67,29 +73,41 @@ const AdminProfile = () => {
       formData.append("name", `${data.firstName} ${data.lastName}`.trim());
       formData.append("phone_number", data.phoneNumber);
 
-      if (data.image && data.image instanceof FileList && data.image.length > 0) {
-        formData.append("image", data.image[0]);
-      } else if (data.image === null) {
+      const file = fileInputRef.current?.files?.[0];
+      if (file) {
+        formData.append("image", file);
+      } else if (deleteImage) {
         formData.append("image", "");
       }
 
       const res: any = await updateProfile(formData);
-      if (previewUrl && previewUrl.startsWith("blob:")) {
+      if (previewUrl?.startsWith("blob:")) {
         URL.revokeObjectURL(previewUrl);
       }
       setPreviewUrl(null);
+      setDeleteImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       toast.success(res?.message || "Successfully updated");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to update profile");
     }
   };
 
-  const handleDeleteImage = () => {
-    setValue("image", null);
-    if (previewUrl && previewUrl.startsWith("blob:")) {
-      URL.revokeObjectURL(previewUrl);
+  const handleFileChange = () => {
+    const file = fileInputRef.current?.files?.[0];
+    if (file) {
+      if (previewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      setPreviewUrl(URL.createObjectURL(file));
+      setDeleteImage(false);
     }
+  };
+
+  const handleDeleteImage = () => {
+    setDeleteImage(true);
     setPreviewUrl(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
@@ -109,26 +127,17 @@ const AdminProfile = () => {
               alt="Admin"
               width={156}
               height={156}
+              unoptimized
               loading="eager"
               className="rounded-full h-39 object-cover"
             />
 
             <div className="flex flex-row sm:flex-col gap-2">
               <GenericInput
+                ref={fileInputRef}
                 type="file"
                 className="flex justify-center items-center rounded-lg bg-[#F6F8FA] w-8 h-8"
-                {...register("image", {
-                  onChange: (e) => {
-                    const files = e.target.files;
-                    if (files && files.length > 0) {
-                      const file = files[0];
-                      if (previewUrl && previewUrl.startsWith("blob:")) {
-                        URL.revokeObjectURL(previewUrl);
-                      }
-                      setPreviewUrl(URL.createObjectURL(file));
-                    }
-                  }
-                })}
+                onChange={handleFileChange}
               />
 
               <button

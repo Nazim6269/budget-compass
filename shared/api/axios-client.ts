@@ -273,15 +273,15 @@ export class AxiosHttpClient implements IHttpClient {
       _retry: config._retry,
       onUploadProgress: config.onUploadProgress
         ? (e) =>
-            config.onUploadProgress!(
-              Math.round((e.loaded / (e.total ?? 1)) * 100),
-            )
+          config.onUploadProgress!(
+            Math.round((e.loaded / (e.total ?? 1)) * 100),
+          )
         : undefined,
       onDownloadProgress: config.onDownloadProgress
         ? (e) =>
-            config.onDownloadProgress!(
-              Math.round((e.loaded / (e.total ?? 1)) * 100),
-            )
+          config.onDownloadProgress!(
+            Math.round((e.loaded / (e.total ?? 1)) * 100),
+          )
         : undefined,
     };
 

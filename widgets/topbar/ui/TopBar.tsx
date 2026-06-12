@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { GenericSearch } from "@/shared/ui/GenericSearch";
 import Notification from "@/shared/ui/icons/Notification";
 import Image from "next/image";
 import { NAV_CONFIG } from "../../sidebar/config/navigation";
 import { useRouter } from "next/navigation";
+import NotificationDropdown from "./NotificationDropdown";
 
 function searchNav(query: string) {
   const result = NAV_CONFIG.flatMap((group) => group.items).filter((item) =>
@@ -15,6 +17,8 @@ function searchNav(query: string) {
 
 export const Topbar = () => {
   const router = useRouter();
+  const [notifOpen, setNotifOpen] = useState(false);
+
   return (
     <header className="w-full border-b border-lineBorder flex items-center justify-between gap-4 p-3 sm:p-6">
       {/* Left - Search */}
@@ -33,9 +37,18 @@ export const Topbar = () => {
       {/* Right - Actions */}
       <div className="flex items-center gap-3 ml-auto">
         {/* Notification Icon */}
-        <button className="flex justify-center items-center rounded-full bg-primaryBg hover:bg-gray-100 h-12 w-12  ">
-          <Notification />
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setNotifOpen((p) => !p)}
+            className="flex cursor-pointer justify-center items-center rounded-full bg-primaryBg hover:bg-gray-100 h-12 w-12"
+          >
+            <Notification />
+          </button>
+          <NotificationDropdown
+            open={notifOpen}
+            onClose={() => setNotifOpen(false)}
+          />
+        </div>
 
         {/* Profile */}
         <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-full h-12 w-12">

@@ -1,4 +1,3 @@
-import { BaseNextRequestConfig } from "next/dist/server/base-http";
 
 export interface RequestConfig {
   timeout?: number;
