@@ -110,7 +110,7 @@ const AdminProfile = () => {
               width={156}
               height={156}
               loading="eager"
-              className="rounded-full object-cover"
+              className="rounded-full h-39 object-cover"
             />
 
             <div className="flex flex-row sm:flex-col gap-2">
