@@ -11,25 +11,38 @@ import { ViewUserModal } from "../widgets/user-management/ui/ViewUserModal";
 import { DeleteUserModal } from "../widgets/user-management/ui/DeleteUserModal";
 import { EditUserModal } from "../widgets/user-management/ui/EditUserModal";
 import { userActionToasts } from "@/shared/utils/toast";
-import { FilterProvider, useFilterContext, buildClientPredicate } from "@/features/filters2";
+import {
+  FilterProvider,
+  useFilterContext,
+  buildClientPredicate,
+} from "@/features/filters2";
 import { USER_MANAGEMENT_FILTER_CONFIGS } from "@/features/filters2/config/filterConfig";
+import { useGetUsers } from "@/features/user-management/model/userManagementHooks";
 
 function UserManagementTable() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { filters } = useFilterContext();
-  
+  const data = useGetUsers();
+  console.log("Fetched users data:", data);
+
+  const usersData = React.useMemo(() => data ?? [], [data]);
+  console.log(usersData, "users data")
+
   // Apply filters to the data
   const filteredUsers = React.useMemo(() => {
-    const predicate = buildClientPredicate(USER_MANAGEMENT_FILTER_CONFIGS, filters);
-    return recentUsers.filter((user) => {
+    const predicate = buildClientPredicate(
+      USER_MANAGEMENT_FILTER_CONFIGS,
+      filters,
+    );
+    return usersData.filter((user) => {
       const userForPredicate = {
         ...user,
-        billingCycle: user.plan,
+        billingCycle: (user as any).plan,
       };
-      
+
       return predicate(userForPredicate as any);
     });
-  }, [filters]);
+  }, [filters, usersData]);
 
   const {
     paginatedData,
@@ -48,9 +61,9 @@ function UserManagementTable() {
     data: filteredUsers,
     itemsPerPage: itemsPerPage,
     siblingCount: 1,
-    resetDeps: [filteredUsers, itemsPerPage], 
+    resetDeps: [filteredUsers, itemsPerPage],
   });
-  
+
   // Modal states
   const viewModal = useModal();
   const deleteModal = useModal();
@@ -79,7 +92,10 @@ function UserManagementTable() {
       }, 500);
       deleteModal.closeModal();
     } catch (error) {
-      userActionToasts.userDeleteFailed(user?.name || "Unknown", error instanceof Error ? error.message : "Unknown error");
+      userActionToasts.userDeleteFailed(
+        user?.name || "Unknown",
+        error instanceof Error ? error.message : "Unknown error",
+      );
     }
   };
 
@@ -92,14 +108,16 @@ function UserManagementTable() {
       }, 500);
       editModal.closeModal();
     } catch (error) {
-      userActionToasts.userUpdateFailed(userData.name, error instanceof Error ? error.message : "Unknown error");
+      userActionToasts.userUpdateFailed(
+        userData.name,
+        error instanceof Error ? error.message : "Unknown error",
+      );
     }
   };
 
-
   return (
     <div className="space-y-8 bg-white rouned-xl p-3 sm:p-6">
-     <TableHeader title="User Management" section="user" />
+      <TableHeader title="User Management" section="user" />
       <GenericTable
         data={paginatedData}
         columns={recentUsersTableConfig}

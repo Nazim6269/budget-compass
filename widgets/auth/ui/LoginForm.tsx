@@ -32,7 +32,7 @@ const LoginForm = () => {
     try {
       await login(data);
       await checkAuth();
-      router.push("/dashboard");
+      router.push("/");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Login failed");
     }
@@ -97,7 +97,7 @@ const LoginForm = () => {
         size="mlarge"
         className="w-full"
         disabled={isPending}
-        onClick={() => {}}
+        onClick={() => { }}
       />
     </form>
   );
