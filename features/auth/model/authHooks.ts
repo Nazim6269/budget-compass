@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { LoginParams, UpdateProfileParams } from "./authType";
+import { ChangePasswordParams, LoginParams, UpdateProfileParams } from "./authType";
 import { authService } from "@/shared/config/container";
 import { authKeys } from "./authKeys";
 import { toast } from "sonner";
@@ -67,7 +67,7 @@ export const useChangePassword = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: (data: any) => authService.changePassword(data),
+    mutationFn: (data: ChangePasswordParams) => authService.changePassword(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
       router.push("/login");

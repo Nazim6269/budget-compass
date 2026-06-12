@@ -42,6 +42,11 @@ export interface RegisterParams {
   confirmPassword?: string;
 }
 
+export interface ChangePasswordParams {
+  old_password: string;
+  new_password: string;
+}
+
 export interface UpdateProfileParams {
   image?: string;
   name?: string;

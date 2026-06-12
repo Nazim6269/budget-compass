@@ -3,6 +3,7 @@ import { tokenStore } from "@/shared/api/token-store";
 import {
   AuthResponseDto,
   AuthUser,
+  ChangePasswordParams,
   UserDto,
   UserProfileDto,
   LoginParams,
@@ -124,7 +125,7 @@ export class AuthService {
   }
 
   //change password
-  async changePassword(params: { oldPass: string; newPass: string }) {
+  async changePassword(params: ChangePasswordParams) {
     try {
       await this.repo.changPassword(params);
     } catch (error) {

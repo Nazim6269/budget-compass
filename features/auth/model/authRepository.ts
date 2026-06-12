@@ -1,5 +1,5 @@
 import { IHttpClient } from "@/shared/api/http-client";
-import { LoginParams, RegisterParams, UpdateProfileParams } from "./authType";
+import { ChangePasswordParams, LoginParams, RegisterParams, UpdateProfileParams } from "./authType";
 
 export class AuthRepository {
   constructor(private readonly http: IHttpClient) {}
@@ -29,7 +29,7 @@ export class AuthRepository {
   }) {
     return this.http.post<T>("/auth/reset-password", data);
   }
-  changPassword<T = unknown>(passwords: { oldPass: string; newPass: string }) {
+  changPassword<T = unknown>(passwords: ChangePasswordParams) {
     return this.http.post<T>("/auth/change-password", passwords);
   }
   resendVerifyEmail<T = unknown>(email: string) {
