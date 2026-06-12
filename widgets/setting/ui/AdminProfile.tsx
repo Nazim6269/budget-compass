@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import { buildImageUrl } from "@/shared/utils/buildAvatarUrl";
 
 const schema = z.object({
   firstName: z.string(),
@@ -41,8 +42,7 @@ const AdminProfile = () => {
     return url.replace(/\/avatar([^/])/, "/avatar/$1");
   };
 
-  const avatarSrc = previewUrl || fixAvatarUrl(profile?.data?.avatar_url);
-
+  const avatarSrc = previewUrl || buildImageUrl(profile?.data?.avatar_url);
   const {
     register,
     handleSubmit,

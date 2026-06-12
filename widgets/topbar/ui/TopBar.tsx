@@ -7,6 +7,8 @@ import Image from "next/image";
 import { NAV_CONFIG } from "../../sidebar/config/navigation";
 import { useRouter } from "next/navigation";
 import NotificationDropdown from "./NotificationDropdown";
+import { useMe } from "@/features/auth/model/authHooks";
+import { buildImageUrl } from "@/shared/utils/buildAvatarUrl";
 
 function searchNav(query: string) {
   const result = NAV_CONFIG.flatMap((group) => group.items).filter((item) =>
@@ -18,6 +20,9 @@ function searchNav(query: string) {
 export const Topbar = () => {
   const router = useRouter();
   const [notifOpen, setNotifOpen] = useState(false);
+  const { data: profileData, isLoading } = useMe()
+
+  const avatarSrc = buildImageUrl(profileData?.data?.avatar_url);
 
   return (
     <header className="w-full border-b border-lineBorder flex items-center justify-between gap-4 p-3 sm:p-6">
@@ -53,7 +58,7 @@ export const Topbar = () => {
         {/* Profile */}
         <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-full h-12 w-12">
           <Image
-            src={"/user.png"}
+            src={avatarSrc}
             alt="user"
             width={48}
             height={48}
