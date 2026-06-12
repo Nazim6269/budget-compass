@@ -117,7 +117,7 @@ export const useMe = () => {
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: UpdateProfileParams) => authService.updateProfile(data),
+    mutationFn: (data: UpdateProfileParams | FormData) => authService.updateProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
       queryClient.invalidateQueries({ queryKey: authKeys.updateProfile() });

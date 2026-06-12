@@ -3,7 +3,6 @@ import { tokenStore } from "@/shared/api/token-store";
 import {
   AuthResponseDto,
   AuthUser,
-  ChangePasswordParams,
   UserDto,
   UserProfileDto,
   LoginParams,
@@ -125,7 +124,7 @@ export class AuthService {
   }
 
   //change password
-  async changePassword(params: ChangePasswordParams) {
+  async changePassword(params: { oldPass: string; newPass: string }) {
     try {
       await this.repo.changPassword(params);
     } catch (error) {
@@ -144,10 +143,9 @@ export class AuthService {
   }
 
   //update profile
-  async updateProfile(params: UpdateProfileParams) {
+  async updateProfile(params: UpdateProfileParams | FormData) {
     try {
       const { data } = await this.repo.updateProfile(params);
-      console.log(data)
       return data;
     } catch (error) {
       logger.error(String(error), "Error during update profile");

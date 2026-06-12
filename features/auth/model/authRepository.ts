@@ -39,7 +39,7 @@ export class AuthRepository {
     return this.http.post<T>("/auth/verify-email", data);
   }
 
-  updateProfile<T = unknown>(data: UpdateProfileParams) {
+  updateProfile<T = unknown>(data: UpdateProfileParams | FormData) {
     return this.http.patch<T>("/auth/update", data);
   }
 

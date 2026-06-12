@@ -172,7 +172,14 @@ function DefaultBrand({ isCollapsed }: { isCollapsed: boolean }) {
       {isCollapsed ? (
         <span className="text-xl font-bold text-si-text">SB</span>
       ) : (
-        <Image src={"/site_logo.png"} alt="Logo" width={150} height={48} />
+        <Image
+          src="/site_logo.png"
+          alt="Logo"
+          width={150}
+          height={48}
+          loading="eager"
+          style={{ width: "auto", height: 48 }}
+        />
       )}
     </div>
   );

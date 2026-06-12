@@ -1,8 +1,8 @@
+import { useState, useEffect } from "react";
 import { DeleteIcon } from "@/shared";
 import GenericButton from "@/shared/ui/GenericButton";
 import { GenericInput } from "@/shared/ui/GenericInput";
 import Image from "next/image";
-import React from "react";
 import { useMe, useUpdateProfile } from "@/features/auth/model/authHooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,37 +21,75 @@ type FormValues = z.infer<typeof schema>;
 const AdminProfile = () => {
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
   const { data: profile } = useMe();
-  console.log(profile)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const fullName = profile?.data.name || "";
   const [firstName = "", ...rest] = fullName.trim().split(" ");
   const lastName = rest.join(" ");
 
+  // The backend avatar_url has a bug: it concatenates "avatar" + filename without a "/"
+  // e.g. "/public/storage/avatarfilename.jpg" instead of "/public/storage/avatar/filename.jpg"
+  // We fix it by detecting and correcting this at runtime.
+  const fixAvatarUrl = (url: string | undefined | null): string => {
+    if (!url) return "/noImage.jpg";
+    // Insert "/" between "avatar" prefix and the filename if missing
+    return url.replace(/\/avatar([^/])/, "/avatar/$1");
+  };
+
+  const avatarSrc = previewUrl || fixAvatarUrl(profile?.data?.avatar_url);
+
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     values: {
-      firstName: profile?.firstName || firstName,
-      lastName: profile?.lastName || lastName,
-      phoneNumber: profile?.phoneNumber || "",
-      image: profile?.image || undefined,
+      firstName: profile?.data?.firstName || firstName,
+      lastName: profile?.data?.lastName || lastName,
+      phoneNumber: profile?.data?.phone_number || "",
+      image: profile?.data?.avatar,
     },
   });
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const res: any = await updateProfile({
-        name: `${data.firstName} ${data.lastName}`.trim(),
-        phoneNumber: data.phoneNumber,
-        image: data.image,
-      });
+      const formData = new FormData();
+      formData.append("name", `${data.firstName} ${data.lastName}`.trim());
+      formData.append("phone_number", data.phoneNumber);
+
+      if (data.image && data.image instanceof FileList && data.image.length > 0) {
+        formData.append("image", data.image[0]);
+      } else if (data.image === null) {
+        formData.append("image", "");
+      }
+
+      const res: any = await updateProfile(formData);
+      if (previewUrl && previewUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      setPreviewUrl(null);
       toast.success(res?.message || "Successfully updated");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to update profile");
     }
+  };
+
+  const handleDeleteImage = () => {
+    setValue("image", null);
+    if (previewUrl && previewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl(null);
   };
 
   return (
@@ -67,23 +105,39 @@ const AdminProfile = () => {
         <div className="flex flex-col sm:flex-row gap-6">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Image
-              src="/user.png"
+              src={avatarSrc}
               alt="Admin"
               width={156}
               height={156}
-              className="h-39 w-39 rounded-full object-cover"
+              loading="eager"
+              className="rounded-full object-cover"
             />
 
             <div className="flex flex-row sm:flex-col gap-2">
               <GenericInput
                 type="file"
                 className="flex justify-center items-center rounded-lg bg-[#F6F8FA] w-8 h-8"
-                {...register("image")}
+                {...register("image", {
+                  onChange: (e) => {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                      const file = files[0];
+                      if (previewUrl && previewUrl.startsWith("blob:")) {
+                        URL.revokeObjectURL(previewUrl);
+                      }
+                      setPreviewUrl(URL.createObjectURL(file));
+                    }
+                  }
+                })}
               />
 
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg p-2 bg-[#F6F8FA]">
+              <button
+                type="button"
+                onClick={handleDeleteImage}
+                className="flex items-center justify-center w-8 h-8 rounded-lg p-2 bg-[#F6F8FA] hover:bg-red-50 text-red-500 transition-colors"
+              >
                 <DeleteIcon />
-              </div>
+              </button>
             </div>
           </div>
 
@@ -122,7 +176,7 @@ const AdminProfile = () => {
 
             <GenericInput
               type="tel"
-              placeholder={profile?.data.phone_number}
+              placeholder={profile?.data?.phone_number}
               label="Phone"
               fullWidth
               size="xmd"

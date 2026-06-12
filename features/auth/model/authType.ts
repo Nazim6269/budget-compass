@@ -4,12 +4,19 @@ export interface UserDto {
 }
 
 export interface UserProfileDto {
-  email?: string;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: string;
-  image?: string;
+  data: {
+    email?: string;
+    name?: string;
+    firstName?: string;
+    lastName?: string;
+    phone_number?: string;
+    avatar?: string;
+    avatar_url?: string;
+    address?: string | null;
+    gender?: string | null;
+    date_of_birth?: string | null;
+    type?: string;
+  }
 }
 
 export interface AuthResponseDto {
@@ -48,10 +55,10 @@ export interface ChangePasswordParams {
 }
 
 export interface UpdateProfileParams {
-  image?: string;
   name?: string;
-  phoneNumber?: string;
+  image?: string;
+  phone_number?: string;
   dateOfBirth?: string;
   billReminders?: boolean;
-  notificaitonReminders?: boolean; 
+  notificaitonReminders?: boolean;
 }
