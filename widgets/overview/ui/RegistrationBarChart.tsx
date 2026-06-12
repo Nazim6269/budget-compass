@@ -34,7 +34,7 @@ const CustomTooltip = ({
   active,
   payload,
   label,
-}: TooltipProps<number, string>) => {
+}: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-xl border border-stone-200 bg-white px-3 py-2 shadow-md">

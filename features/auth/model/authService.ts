@@ -8,6 +8,7 @@ import {
   LoginParams,
   RegisterParams,
   UpdateProfileParams,
+  ChangePasswordParams,
 } from "./authType";
 import { logger } from "@/shared/api/logger";
 import { AuthRepository } from "./authRepository";
@@ -124,7 +125,7 @@ export class AuthService {
   }
 
   //change password
-  async changePassword(params: { oldPass: string; newPass: string }) {
+  async changePassword(params: ChangePasswordParams) {
     try {
       await this.repo.changPassword(params);
     } catch (error) {

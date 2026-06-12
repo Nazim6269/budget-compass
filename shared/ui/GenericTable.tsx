@@ -26,8 +26,8 @@ interface DynamicTableProps {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
   onView?: (row: any) => void;
-  onDelete?: (id: any) => void;
-  onWrite?: (id: any) => void;
+  onDelete?: (row: any) => void;
+  onWrite?: (row: any) => void;
   onStatus?: (row: any) => void; // Updated type definition for onStatus
   noDataMessage?: string;
   totalpage: number;
@@ -160,7 +160,7 @@ export default function GenericTable({
                           {onWrite && (
                             <span
                               className="cursor-pointer bg-[#F8FAFB] p-1.5 rounded-md"
-                              onClick={() => onWrite(row.id)}
+                              onClick={() => onWrite(row)}
                             >
                               <WriteIcon />
                             </span>
@@ -169,7 +169,7 @@ export default function GenericTable({
                           {onDelete && (
                             <span
                               className="cursor-pointer bg-[#F8FAFB] p-1.5 rounded-md"
-                              onClick={() => onDelete(row.id)}
+                              onClick={() => onDelete(row)}
                             >
                               <DeleteIcon />
                             </span>

@@ -21,7 +21,11 @@ import { useGetUsers } from "@/features/user-management/model/userManagementHook
 function UserManagementTable() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { filters } = useFilterContext();
-  const { data: usersData = [] } = useGetUsers();
+  const { data: usersList, isLoading, error } = useGetUsers();
+  console.log("Fetched users data:", usersList);
+
+  const usersData = React.useMemo(() => usersList ?? [], [usersList]);
+  console.log(usersData, "users data")
 
   // Apply filters to the data
   const filteredUsers = React.useMemo(() => {
@@ -111,7 +115,7 @@ function UserManagementTable() {
   };
 
   return (
-    <div className="space-y-8 bg-white rouned-xl p-3 sm:p-6">
+    <div className="space-y-8 bg-white rounded-xl p-3 sm:p-6">
       <TableHeader title="User Management" section="user" />
       <GenericTable
         data={paginatedData}
@@ -124,6 +128,8 @@ function UserManagementTable() {
         onDelete={handleDeleteUser}
         onView={handleViewUser}
         onWrite={handleEditUser}
+        loading={isLoading}
+        error={error instanceof Error ? error.message : undefined}
       />
 
       <Pagination
