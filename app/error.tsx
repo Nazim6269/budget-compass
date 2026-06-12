@@ -14,17 +14,41 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-6">
-      <div className="text-center max-w-md">
-        <h1 className="text-5xl font-bold text-si-error">Something went wrong</h1>
+    <div className="min-h-screen flex items-center justify-center bg-primaryBg px-6">
+      <div className="max-w-md w-full text-center  border border-si-border rounded-2xl p-8 shadow-sm">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
+          <span className="text-3xl">⚠️</span>
+        </div>
 
-        <p className="mt-4 text-textSecondary">
-          An unexpected error occurred. Please try again.
+        <h1 className="mt-6 text-3xl font-bold text-textPrimary">
+          Something went wrong
+        </h1>
+
+        <p className="mt-3 text-textSecondary leading-relaxed">
+          An unexpected error occurred while processing your request.
+          Please try again. If the issue persists, contact support.
         </p>
 
         <button
-          onClick={() => reset()}
-          className="mt-6 px-6 py-3 rounded-xl bg-textPrimary text-background hover:opacity-90 transition"
+          onClick={reset}
+          className="
+            mt-8
+            inline-flex
+            items-center
+            justify-center
+            rounded-xl
+          cursor-pointer
+            bg-textPrimary
+            px-6
+            py-3
+            text-white
+            font-medium
+            transition-all
+            hover:opacity-90
+            focus:outline-none
+            focus:ring-2
+            focus:ring-offset-2
+          "
         >
           Try Again
         </button>
