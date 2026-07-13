@@ -13,7 +13,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="force-light flex min-h-screen flex-col bg-white text-foreground">
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />

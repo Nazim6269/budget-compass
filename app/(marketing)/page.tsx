@@ -62,11 +62,11 @@ export default function HomePage() {
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-background px-4 sm:px-6 py-20 sm:py-32">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[700px] rounded-full bg-primaryBg blur-3xl opacity-60" />
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[700px] rounded-full bg-white blur-3xl opacity-60" />
         </div>
 
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-primaryBg px-4 py-1.5 text-xs font-medium text-textSecondary">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-1.5 text-xs font-medium text-textSecondary">
             <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
             Now available on iOS &amp; Android
           </div>
@@ -91,7 +91,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/pricing"
-              className="rounded-lg border border-border px-6 py-3 text-sm font-medium text-textPrimary hover:bg-primaryBg transition-colors w-full sm:w-auto text-center"
+              className="rounded-lg border border-border px-6 py-3 text-sm font-medium text-textPrimary hover:bg-white transition-colors w-full sm:w-auto text-center"
             >
               View Pricing
             </Link>
@@ -100,7 +100,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Features ──────────────────────────────────────────────────── */}
-      <section id="features" className="bg-primaryBg px-4 sm:px-6 py-20 sm:py-28">
+      <section id="features" className="bg-background px-4 sm:px-6 py-20 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-textPrimary tracking-tight">
@@ -117,7 +117,7 @@ export default function HomePage() {
                 key={feature.title}
                 className="rounded-xl border border-border bg-background p-6 hover:shadow-md transition-shadow"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primaryBg border border-border">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-border">
                   <feature.icon className="h-5 w-5 text-textSecondary" />
                 </div>
                 <h3 className="text-base font-semibold text-textPrimary mb-2">
@@ -147,7 +147,7 @@ export default function HomePage() {
       </section>
 
       {/* ── How It Works ──────────────────────────────────────────────── */}
-      <section className="bg-primaryBg px-4 sm:px-6 py-20 sm:py-28">
+      <section className="bg-background px-4 sm:px-6 py-20 sm:py-28">
         <div className="mx-auto max-w-4xl">
           <h2 className="text-3xl sm:text-4xl font-bold text-textPrimary tracking-tight text-center mb-12">
             How it works
@@ -172,7 +172,7 @@ export default function HomePage() {
               },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-textPrimary text-white text-lg font-bold">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-white text-textPrimary text-lg font-bold">
                   {item.step}
                 </div>
                 <h3 className="text-base font-semibold text-textPrimary mb-2">

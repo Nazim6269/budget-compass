@@ -41,7 +41,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Mission ───────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-16 bg-primaryBg">
+      <section className="px-4 sm:px-6 py-16 bg-background">
         <div className="mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-textPrimary tracking-tight">
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 key={value.title}
                 className="rounded-xl border border-border bg-background p-6"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primaryBg border border-border">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-border">
                   <value.icon className="h-5 w-5 text-textSecondary" />
                 </div>
                 <h3 className="text-base font-semibold text-textPrimary mb-2">

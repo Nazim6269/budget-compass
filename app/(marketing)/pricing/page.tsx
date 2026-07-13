@@ -64,12 +64,12 @@ export default function PricingPage() {
               key={plan.name}
               className={`relative rounded-2xl border p-8 ${
                 plan.highlighted
-                  ? "border-textPrimary bg-primaryBg shadow-lg"
+                  ? "border-textPrimary bg-white shadow-lg"
                   : "border-border bg-background"
               }`}
             >
               {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-textPrimary px-4 py-1 text-xs font-medium text-white">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-border bg-white px-4 py-1 text-xs font-medium text-textPrimary">
                   {plan.badge}
                 </div>
               )}
@@ -102,7 +102,7 @@ export default function PricingPage() {
                   className={`block w-full rounded-lg py-2.5 text-center text-sm font-medium transition-colors ${
                     plan.highlighted
                       ? "bg-textPrimary text-white hover:bg-textSecondary"
-                      : "border border-border text-textPrimary hover:bg-primaryBg"
+                      : "border border-border text-textPrimary hover:bg-white"
                   }`}
                 >
                   {plan.cta}
