@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Shield,
   TrendingUp,
@@ -233,37 +234,14 @@ export default function HomePage() {
 
             {/* Right - Phone mockup */}
             <div className="flex justify-center">
-              <div className="relative w-[260px] h-[520px] rounded-[3rem] border-[6px] border-grayBlack50 bg-white shadow-2xl overflow-hidden">
-                {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-grayBlack50 rounded-b-2xl z-10" />
-                {/* Screen content */}
-                <div className="flex flex-col items-center justify-center h-full bg-gradient-to-b from-white to-primaryBg px-6 text-center">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-textPrimary text-white">
-                    <span className="text-lg font-bold">BC</span>
-                  </div>
-                  <p className="text-xs font-medium text-textSecondary mb-1">Safe to Spend</p>
-                  <p className="text-3xl font-bold text-textPrimary">$1,240</p>
-                  <div className="mt-6 w-full space-y-2">
-                    {[
-                      { label: "Bills", amount: "$890", pct: 72 },
-                      { label: "Goals", amount: "$320", pct: 26 },
-                      { label: "Debt", amount: "$180", pct: 14 },
-                    ].map((item) => (
-                      <div key={item.label} className="flex items-center justify-between text-xs">
-                        <span className="text-grayBlack2">{item.label}</span>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-textPrimary">{item.amount}</span>
-                          <div className="w-16 h-1.5 rounded-full bg-grayBlack50 overflow-hidden">
-                            <div
-                              className="h-full rounded-full bg-textSecondary"
-                              style={{ width: `${item.pct}%` }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="relative w-[280px] h-[560px]">
+                <Image
+                  src="/iPhone 15 Pro Portrait Mockup label.png"
+                  alt="BudgetCompass mobile app"
+                  fill
+                  className="object-contain"
+                  sizes="280px"
+                />
               </div>
             </div>
           </div>
