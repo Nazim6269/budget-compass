@@ -25,7 +25,7 @@ export const NAV_CONFIG: NavGroup[] = [
       {
         id: "dashboard",
         label: "Dashboard",
-        href: "/",
+        href: "/dashboard",
         icon: StackIcon,
       },
       {
