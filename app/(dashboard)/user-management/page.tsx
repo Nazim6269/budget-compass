@@ -1,4 +1,4 @@
-import UserManagement from "@/pages/UserManagement";
+import UserManagement from "@/views/UserManagement";
 import { Suspense } from "react";
 
 const UserManagementPage = () => {

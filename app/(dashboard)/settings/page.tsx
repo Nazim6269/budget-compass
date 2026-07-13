@@ -1,4 +1,4 @@
-import SettingPage from "@/pages/SettingPage";
+import SettingPage from "@/views/SettingPage";
 
 const SettingsPage = () => {
   return <SettingPage />;

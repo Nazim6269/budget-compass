@@ -1,4 +1,4 @@
-import Subscription from "@/pages/Subscription";
+import Subscription from "@/views/Subscription";
 import React, { Suspense } from "react";
 
 const SubpscriptionPage = () => {

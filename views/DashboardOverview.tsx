@@ -3,7 +3,7 @@
 import React from "react";
 import { Users, CreditCard, DollarSign } from "lucide-react";
 
-import UsersPage from "@/pages/User";
+import UsersPage from "@/views/User";
 import PlanDistributionChart, {
   PlanSegment,
 } from "@/widgets/overview/ui/PlanDistributionChart";
@@ -12,7 +12,7 @@ import RegistrationsBarChart from "@/widgets/overview/ui/RegistrationBarChart";
 import { recentUsers, registrationData } from "@/widgets/overview/ui/data";
 import { useModal } from "@/shared/model/useModal";
 import { LogoutConfirmModal } from "@/features/auth/ui/LogoutConfirmModal";
-import { authService } from "@/shared/config/container";
+// import { authService } from "@/shared/config/container";
 import { useRouter } from "next/navigation";
 
 const planDistribution: PlanSegment[] = [
@@ -37,7 +37,9 @@ export default function DashboardOverview() {
   const handleConfirmLogout = async () => {
     setLogoutLoading(true);
     try {
-      await authService.logout();
+      // ── ORIGINAL: await authService.logout();
+      // ── DUMMY: skip API call
+      await new Promise((r) => setTimeout(r, 300));
       router.replace("/login");
     } catch (err) {
       console.error("Logout failed:", err);

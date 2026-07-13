@@ -3,7 +3,7 @@
 import { Sidebar } from "./Sidebar";
 import { NAV_CONFIG } from "../config/navigation";
 import { LogoutButton } from "@/features/auth/ui/LogoutButton";
-import { authService } from "@/shared/config/container";
+// import { authService } from "@/shared/config/container";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/shared/AuthProvider";
 import { useLogout } from "@/features/auth/model/authHooks";

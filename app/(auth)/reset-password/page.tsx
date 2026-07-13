@@ -1,4 +1,4 @@
-import ResetPasswordPage from "@/pages/ResetPasswordPage";
+import ResetPasswordPage from "@/views/ResetPasswordPage";
 import React from "react";
 
 const page = () => {

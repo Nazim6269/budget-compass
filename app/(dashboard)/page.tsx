@@ -1,4 +1,4 @@
-import DashboardOverview from "@/pages/DashboardOverview";
+import DashboardOverview from "@/views/DashboardOverview";
 import { Suspense } from "react";
 
 export default function Home() {

@@ -1,15 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChangePasswordParams, LoginParams, UpdateProfileParams } from "./authType";
-import { authService } from "@/shared/config/container";
+// import { authService } from "@/shared/config/container";
 import { authKeys } from "./authKeys";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+// ── Dummy Data ───────────────────────────────────────────────────────────────
+
+const dummyUser = {
+  email: "admin@budgetcompass.com",
+  name: "Admin User",
+  firstName: "Admin",
+  lastName: "User",
+  phone_number: "+1 (555) 123-4567",
+  avatar_url: "",
+  type: "admin",
+};
+
+const dummyToken = "dummy-access-token-xxxxx";
+
+// ── Hooks (Dummy) ────────────────────────────────────────────────────────────
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (params: LoginParams) => authService.login(params),
+    // ── ORIGINAL: mutationFn: (params: LoginParams) => authService.login(params),
+    mutationFn: async (params: LoginParams) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { access_token: dummyToken, user: { email: params.email, type: "admin" } };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
     },
@@ -23,7 +43,11 @@ export const useLogout = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: () => authService.logout(),
+    // ── ORIGINAL: mutationFn: () => authService.logout(),
+    mutationFn: async () => {
+      await new Promise((r) => setTimeout(r, 300));
+      return { success: true };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
       router.push("/login");
@@ -38,7 +62,11 @@ export const useForgetPassword = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: (email: string) => authService.forgetPassword(email),
+    // ── ORIGINAL: mutationFn: (email: string) => authService.forgetPassword(email),
+    mutationFn: async (email: string) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "OTP sent to email" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
       router.push("/otp");
@@ -52,8 +80,12 @@ export const useForgetPassword = () => {
 export const useResetPassword = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: { email: string; password: string; token: string }) =>
-      authService.resetPassword(params),
+    // ── ORIGINAL: mutationFn: (params: { email: string; password: string; token: string }) =>
+    // ──   authService.resetPassword(params),
+    mutationFn: async (params: { email: string; password: string; token: string }) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "Password reset successfully" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
     },
@@ -67,7 +99,11 @@ export const useChangePassword = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: (data: ChangePasswordParams) => authService.changePassword(data),
+    // ── ORIGINAL: mutationFn: (data: ChangePasswordParams) => authService.changePassword(data),
+    mutationFn: async (data: ChangePasswordParams) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "Password changed successfully" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
       router.push("/login");
@@ -82,14 +118,18 @@ export const useVerifyEmail = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: (params: { email: string; token: string }) =>
-      authService.verifyEmail(params),
+    // ── ORIGINAL: mutationFn: (params: { email: string; token: string }) =>
+    // ──   authService.verifyEmail(params),
+    mutationFn: async (params: { email: string; token: string }) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "Email verified" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
       router.push("/reset-password");
     },
     onError: (err) => {
-      toast.error(err.message || "Change Password Failed");
+      toast.error(err.message || "Verify Email Failed");
     },
   });
 };
@@ -97,7 +137,11 @@ export const useVerifyEmail = () => {
 export const useResendEmail = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (email: string) => authService.resendVerifyEmail(email),
+    // ── ORIGINAL: mutationFn: (email: string) => authService.resendVerifyEmail(email),
+    mutationFn: async (email: string) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "OTP resent" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.all });
     },
@@ -110,14 +154,22 @@ export const useResendEmail = () => {
 export const useMe = () => {
   return useQuery({
     queryKey: authKeys.me(),
-    queryFn: () => authService.getMe(),
+    // ── ORIGINAL: queryFn: () => authService.getMe(),
+    queryFn: async () => {
+      await new Promise((r) => setTimeout(r, 300));
+      return { data: dummyUser } as any;
+    },
   });
 };
 
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: UpdateProfileParams | FormData) => authService.updateProfile(data),
+    // ── ORIGINAL: mutationFn: (data: UpdateProfileParams | FormData) => authService.updateProfile(data),
+    mutationFn: async (data: UpdateProfileParams | FormData) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "Profile updated successfully" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
       queryClient.invalidateQueries({ queryKey: authKeys.updateProfile() });
@@ -132,7 +184,11 @@ export const resetPassword = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: (data: any) => authService.resetPassword(data),
+    // ── ORIGINAL: mutationFn: (data: any) => authService.resetPassword(data),
+    mutationFn: async (data: any) => {
+      await new Promise((r) => setTimeout(r, 500));
+      return { success: true, message: "Password reset successfully" };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: authKeys.resetPassword() });
       router.push("/login");

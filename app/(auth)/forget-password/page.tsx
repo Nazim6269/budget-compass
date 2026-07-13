@@ -1,4 +1,4 @@
-import ForgetPasswordPage from "@/pages/ForgetPasswordPage";
+import ForgetPasswordPage from "@/views/ForgetPasswordPage";
 
 const page = () => {
   return <ForgetPasswordPage />;

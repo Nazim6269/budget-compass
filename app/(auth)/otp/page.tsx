@@ -1,4 +1,4 @@
-import OtpPage from "@/pages/OtpPage";
+import OtpPage from "@/views/OtpPage";
 
 const page = () => {
   return <OtpPage />;
