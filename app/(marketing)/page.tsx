@@ -65,7 +65,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[500px] sm:min-h-[600px] flex items-center justify-center overflow-hidden bg-black">
+      <section className="relative min-h-[500px] sm:min-h-[600px] flex items-center justify-center overflow-hidden bg-black pt-20">
         {/* Carousel as background */}
         <div className="absolute inset-0 z-0">
           <BackgroundCarousel />
