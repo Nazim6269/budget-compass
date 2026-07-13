@@ -70,6 +70,13 @@ export default function OtpPage() {
 
           <OtpForm />
 
+          {/* Demo hint */}
+          <div className="mt-4 rounded-lg border border-dashed border-border bg-primaryBg p-3 text-center">
+            <p className="text-xs text-grayBlack2">
+              Demo: Enter <span className="font-medium text-textPrimary">any 6 digits</span> (e.g. 123456)
+            </p>
+          </div>
+
           {/* Resend */}
           <div className="mt-6 text-center text-sm text-grayBlack2">
             Didn&apos;t receive a code?{" "}

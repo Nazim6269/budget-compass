@@ -22,8 +22,8 @@ const LoginForm = () => {
     mode: "onChange",
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "admin@gmail.com",
+      password: "Pass@123",
     },
   });
   const { mutateAsync: login, isPending } = useLogin();
@@ -99,6 +99,13 @@ const LoginForm = () => {
         disabled={isPending}
         onClick={() => { }}
       />
+
+      {/* Demo credentials hint */}
+      <div className="rounded-lg border border-dashed border-border bg-primaryBg p-3 text-center">
+        <p className="text-xs text-grayBlack2">
+          Demo: <span className="font-medium text-textPrimary">admin@gmail.com</span> / <span className="font-medium text-textPrimary">Pass@123</span>
+        </p>
+      </div>
     </form>
   );
 };
