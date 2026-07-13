@@ -10,8 +10,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bendrummond",
-  description: "Admin Dashboard for Bendrummond",
+  title: "BudgetCompass",
+  description: "Admin Dashboard for BudgetCompass",
 };
 
 export default function RootLayout({
