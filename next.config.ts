@@ -12,11 +12,23 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "kind-panels-machine-participant.trycloudflare.com",
-      },     // Local backend fallback
+      },
+      // Local backend fallback
       {
         protocol: "http",
         hostname: "192.168.7.42",
         port: "4222",
+        pathname: "/**",
+      },
+      // Stock images for marketing
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
         pathname: "/**",
       },
     ],
